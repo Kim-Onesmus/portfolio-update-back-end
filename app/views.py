@@ -23,61 +23,36 @@ def getAccessToken(request):
     validated_mpesa_access_token = mpesa_access_token['access_token']
     return HttpResponse(validated_mpesa_access_token)
 
-
 def lipa_na_mpesa_online(request):
-    if request.methethod == 'POST':
+    if request.method == 'POST':
         number = request.POST['number']
         amount = request.POST['amount']
         
-        if len(number) == 12 and number.starts_with('2547'):
-            access_token = MpesaAccessToken.validate_mpesa_access_token
+        if len(number) == 12 and number.startswith('2547'):
+            access_token = MpesaAccessToken.validated_mpesa_access_token
             api_url = "https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest"
-            headers = {"Authorization": "Beare %s" % access_token}
+            headers = {"Authorization": "Bearer %s" % access_token}
             request = {
-                "BussinessShortCode": LipanaMpesaPpassword.Business_short_code,
+                "BusinessShortCode": LipanaMpesaPpassword.Business_short_code,
                 "Password": LipanaMpesaPpassword.decode_password,
                 "Timestamp": LipanaMpesaPpassword.lipa_time,
                 "TransactionType": "CustomerPayBillOnline",
                 "Amount": amount,
-                "PartA": number,
-                "PartB": LipanaMpesaPpassword.Business_short_code,
-                "PhoneNumber": number,
+                "PartyA": number,  # replace with your phone number to get stk push
+                "PartyB": LipanaMpesaPpassword.Business_short_code,
+                "PhoneNumber": number,  # replace with your phone number to get stk push
                 "CallBackURL": "https://sandbox.safaricom.co.ke/mpesa/",
                 "AccountReference": "KimTech",
-                "TransactionDesc": "Buy Me Coffee"
+                "TransactionDesc": "Buy me Coffee"
             }
-            response = request.post(api_url, json=request, headers=headers)
-            messages.info(request, "Submitted succesifully")
+
+            response = requests.post(api_url, json=request, headers=headers)
             return redirect('/')
+            messages.success(request, 'Submitted Succesifully')
         else:
             messages.error(request, f"Phone Number '{number}' is not valid or Wrong format")
             return redirect('/')
-        
-    if request.method == 'POST':
-        name = request.POST['name']
-        email = request.POST['email']
-        subject = request.POST['subject']
-        message = request.POST['message']
-        
-        form = ContactUs.objects.create(name=name, email=email, subject=subject, message=message)
-        form.save()
-        messages.info(request, 'Submitted successifully, we will get back to you soon')
-        return redirect('/')
-    
-    image = AddImage.objects.all()
-    project = AddProject.objects.all()
-    blog = AddBlog.objects.all()
-    contact = ContactUs.objects.all()
-    review = AddReview.objects.all()
-        
-    context = {
-        'image':image,
-        'project':project,
-        'blog':blog,
-        'contact':contact,
-        'review':review
-    }
-    return render(request, 'app/index.html', context)
+    return render(request, 'app/index.html')
 
 @csrf_exempt
 def register_urls(request):
@@ -134,6 +109,32 @@ def confirmation(request):
 
     return JsonResponse(dict(context))
 
+def Home(request):
+    if request.method == 'POST':
+        name = request.POST['name']
+        email = request.POST['email']
+        subject = request.POST['subject']
+        message = request.POST['message']
+        
+        form = ContactUs.objects.create(name=name, email=email, subject=subject, message=message)
+        form.save()
+        messages.info(request, 'Submitted successifully, we will get back to you soon')
+        return redirect('/')
+    
+    image = AddImage.objects.all()
+    project = AddProject.objects.all()
+    blog = AddBlog.objects.all()
+    contact = ContactUs.objects.all()
+    review = AddReview.objects.all()
+        
+    context = {
+        'image':image,
+        'project':project,
+        'blog':blog,
+        'contact':contact,
+        'review':review
+    }
+    return render(request, 'app/index.html', context)
 
 def adminPage(request):
     image = AddImage.objects.all()

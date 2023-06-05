@@ -184,7 +184,8 @@
         <div class="modal-content">
           <div class="contact-form">
             <span style="font-size: 50px;" class="close">&times;</span><br>
-            <form class="text-dark" action="">
+            <form method="post" class="text-dark" action="">
+                {% csrf_token %}
                 <h4 style="text-align: center;width: 100%;" class="bg-primary"><u>Buy Me Coffee</u></h4>
                 <table id="zero_config" class="table table-striped no-wrap text-dark">
                     <div class="col-lg-12">
