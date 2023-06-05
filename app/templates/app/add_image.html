@@ -1,0 +1,41 @@
+{% extends 'main.html' %} {% load static %} {% block content %}
+<body data-spy="scroll" data-target=".navbar" data-offset="51">
+    <div class="container-fluid py-5" id="contact">
+        <div class="container">
+            <div style="border-bottom: 2px solid dodgerblue;" class="position-relative d-flex align-items-center justify-content-center">
+                <h1 class="display-1 text-uppercase text-white" style="-webkit-text-stroke: 1px #dee2e6;">Photos</h1>
+                <h1 class="position-absolute text-uppercase text-primary">Add Image</h1>
+            </div>
+            <br>
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="contact-form text-center">
+                        <div id="success"></div>
+                        <form method="post" enctype="multipart/form-data" class="text-dark" action="">
+                            {% csrf_token %}
+                            <table id="zero_config" class="table table-striped no-wrap text-dark">
+                                <div class="col-lg-12">
+                                    <div class="form-group">
+                                        <label style="text-align: start; font-size: 25px;" for="image">Tittle</label>
+                                        {{form.tittle}}
+                                        <p class="help-block text-danger"></p>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <div class="form-group">
+                                        {{form.image}}
+                                        <p class="help-block text-danger"></p>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12 text-center">
+                                    <button type="submit" class="btn btn-block btn-dark">Submit</button>
+                                </div>
+                            </table>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+{% endblock content %}

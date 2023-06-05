@@ -1,0 +1,28 @@
+{% extends 'main.html' %} {% load static %} {% block content %}
+
+<body data-spy="scroll" data-target=".navbar" data-offset="51">
+    <div class="container-fluid pt-5" id="blog">
+        <div class="container">
+            <div style="border-bottom: 2px solid dodgerblue;" class="position-relative d-flex align-items-center justify-content-center">
+                <h1 class="display-1 text-uppercase text-white" style="-webkit-text-stroke: 1px #dee2e6;">Contact</h1>
+                <h1 class="position-absolute text-uppercase text-primary">Messages</h1>
+            </div>
+            <br>
+            <div class="row pb-3">
+                {% for data in contact %}
+                <div class="col-lg-4 col-md-6 text-center mb-5">
+                    <div class="mb-4">
+                        <h4 style="text-align: start;" class="font-weight-bold m-0">{{data.name}}</h4>
+                    </div>
+                    <p style="text-align: start;"><span><b>Email: </b></span>{{data.email}}</p>
+                    <p style="text-align: start;"><span><b>Subject: </b></span>{{data.subject}}</p>
+                    <p style="text-align: start;"><span><b>Message: </b></span>{{data.message}}</p>
+                    <br>
+                    <button class="button btn btn-outline-primary"><a style="text-decoration: none;color: black;" href="mailto:{{data.email}}">Reply</a></button>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</body>
+{% endblock content %}

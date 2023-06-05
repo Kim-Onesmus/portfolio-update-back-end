@@ -1,0 +1,64 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Onesmus Kimanzi</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="Free HTML Templates" name="keywords">
+    <meta content="Free HTML Templates" name="description">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet"> 
+
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link href="{% static 'lib/owlcarousel/assets/owl.carousel.min.css' %}" rel="stylesheet">
+    <link href="{% static 'lib/lightbox/css/lightbox.min.css' %}" rel="stylesheet">
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
+    <!-- <link rel="stylesheet" href="{% static 'css/pop.css' %}"> -->
+</head>
+
+<body>
+    {% if blog %}
+    <form style="text-align: center; margin-top: 100px;" method="POST" action="">
+        {% csrf_token %}
+        <p>{{request.user}} Are you sure you want to delete {{blog}}?</p>
+        <a style="background-color: green;padding: 6px;" href="{{request.META.HTTP_REFERER}}">Go Back</a>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <input style="background-color: red;" type="submit" value="confirm" />
+    </form>
+    {% elif image %}
+    <form style="text-align: center; margin-top: 100px;" method="POST" action="">
+        {% csrf_token %}
+        <p>{{request.user}} Are you sure you want to delete {{image}}?</p>
+        <a style="background-color: green;padding: 6px;" href="{{request.META.HTTP_REFERER}}">Go Back</a>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <input style="background-color: red;" type="submit" value="confirm" />
+    </form>
+    {% elif review %}
+    <form style="text-align: center; margin-top: 100px;" method="POST" action="">
+        {% csrf_token %}
+        <p>{{request.user}} Are you sure you want to delete {{review}}?</p>
+        <a style="background-color: green;padding: 6px;" href="{{request.META.HTTP_REFERER}}">Go Back</a>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <input style="background-color: red;" type="submit" value="confirm" />
+    </form>
+    {% elif project %}
+    <form style="text-align: center; margin-top: 100px;" method="POST" action="">
+        {% csrf_token %}
+        <p>{{request.user}} Are you sure you want to delete {{project}}?</p>
+        <a style="background-color: green;padding: 6px;" href="{{request.META.HTTP_REFERER}}">Go Back</a>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <input style="background-color: red;" type="submit" value="confirm" />
+    </form>
+    {% endif %}
+
+</body>
+</html>
