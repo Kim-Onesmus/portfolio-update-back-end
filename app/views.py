@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import auth, User
 from django.contrib import messages
-from .models import AddBlog, AddReview, AddImage, AddProject, ContactUs, MpesaPayment
+from .models import AddBlog, AddReview, AddImage, AddProject, ContactUs, MpesaPayment, Pay
 from .forms import BlogForm, ImageForm, ProjectForm, ReviewForm
 from django.http import HttpResponse, JsonResponse
 import requests
@@ -25,25 +25,59 @@ def getAccessToken(request):
 
 
 def lipa_na_mpesa_online(request):
-    access_token = MpesaAccessToken.validate_mpesa_access_token
-    api_url = "https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest"
-    headers = {"Authorization": "Beare %s" % access_token}
-    request = {
-        "BussinessShortCode": LipanaMpesaPpassword.Business_short_code,
-        "Password": LipanaMpesaPpassword.decode_password,
-        "Timestamp": LipanaMpesaPpassword.lipa_time,
-        "TransactionType": "CustomerPayBillOnline",
-        "Amount": 1,
-        "PartA": 254792613079,
-        "PartB": LipanaMpesaPpassword.Business_short_code,
-        "PhoneNumber": 254792613079,
-        "CallBackURL": "https://sandbox.safaricom.co.ke/mpesa/",
-        "AccountReference": "KimTech",
-        "TransactionDesc": "Buy Me Coffee"
-    }
+    if request.methethod == 'POST':
+        number = request.POST['number']
+        amount = request.POST['amount']
+        
+        if len(number) == 12 and number.starts_with('2547'):
+            access_token = MpesaAccessToken.validate_mpesa_access_token
+            api_url = "https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest"
+            headers = {"Authorization": "Beare %s" % access_token}
+            request = {
+                "BussinessShortCode": LipanaMpesaPpassword.Business_short_code,
+                "Password": LipanaMpesaPpassword.decode_password,
+                "Timestamp": LipanaMpesaPpassword.lipa_time,
+                "TransactionType": "CustomerPayBillOnline",
+                "Amount": amount,
+                "PartA": number,
+                "PartB": LipanaMpesaPpassword.Business_short_code,
+                "PhoneNumber": number,
+                "CallBackURL": "https://sandbox.safaricom.co.ke/mpesa/",
+                "AccountReference": "KimTech",
+                "TransactionDesc": "Buy Me Coffee"
+            }
+            response = request.post(api_url, json=request, headers=headers)
+            messages.info(request, "Submitted succesifully")
+            return redirect('/')
+        else:
+            messages.error(request, f"Phone Number '{number}' is not valid or Wrong format")
+            return redirect('/')
+        
+    if request.method == 'POST':
+        name = request.POST['name']
+        email = request.POST['email']
+        subject = request.POST['subject']
+        message = request.POST['message']
+        
+        form = ContactUs.objects.create(name=name, email=email, subject=subject, message=message)
+        form.save()
+        messages.info(request, 'Submitted successifully, we will get back to you soon')
+        return redirect('/')
     
-    response = request.post(api_url, json=request, headers=headers)
-    return HttpResponse('success')
+    image = AddImage.objects.all()
+    project = AddProject.objects.all()
+    blog = AddBlog.objects.all()
+    contact = ContactUs.objects.all()
+    review = AddReview.objects.all()
+        
+    context = {
+        'image':image,
+        'project':project,
+        'blog':blog,
+        'contact':contact,
+        'review':review
+    }
+    return render(request, 'app/index.html', context)
 
 @csrf_exempt
 def register_urls(request):
@@ -99,34 +133,6 @@ def confirmation(request):
     }
 
     return JsonResponse(dict(context))
-
-def Home(request):
-    if request.method == 'POST':
-        name = request.POST['name']
-        email = request.POST['email']
-        subject = request.POST['subject']
-        message = request.POST['message']
-        
-        form = ContactUs.objects.create(name=name, email=email, subject=subject, message=message)
-        form.save()
-        messages.info(request, 'Submitted successifully, we will get back to you soon')
-        return redirect('/')
-
-    image = AddImage.objects.all()
-    project = AddProject.objects.all()
-    blog = AddBlog.objects.all()
-    contact = ContactUs.objects.all()
-    review = AddReview.objects.all()
-        
-    context = {
-        'image':image,
-        'project':project,
-        'blog':blog,
-        'contact':contact,
-        'review':review
-    }
-
-    return render(request, 'app/index.html', context)
 
 
 def adminPage(request):

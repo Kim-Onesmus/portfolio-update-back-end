@@ -52,7 +52,11 @@ class ContactUs(models.Model):
     subject = models.CharField(max_length=200)
     message = models.TextField(max_length=200)
     
-    
+class Pay(models.Model):
+    number = models.PositiveBigIntegerField(max_length=13)
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
+
+   
 class BaseModel(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
