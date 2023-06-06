@@ -12,7 +12,6 @@ from django.views.decorators.csrf import csrf_exempt
 
 
 # Create your views here.
-
 def getAccessToken(request):
     consumer_key = 'gvmRX9peDcWeYTRRHBrOZh42jITwtl4N'
     consumer_secret = 'Vsmx9HaLqGPdAhPQ'
@@ -25,34 +24,61 @@ def getAccessToken(request):
 
 def lipa_na_mpesa_online(request):
     if request.method == 'POST':
-        number = request.POST['number']
-        amount = request.POST['amount']
-        
-        if len(number) == 12 and number.startswith('2547'):
-            access_token = MpesaAccessToken.validated_mpesa_access_token
-            api_url = "https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest"
-            headers = {"Authorization": "Bearer %s" % access_token}
-            request = {
-                "BusinessShortCode": LipanaMpesaPpassword.Business_short_code,
-                "Password": LipanaMpesaPpassword.decode_password,
-                "Timestamp": LipanaMpesaPpassword.lipa_time,
-                "TransactionType": "CustomerPayBillOnline",
-                "Amount": amount,
-                "PartyA": number,  # replace with your phone number to get stk push
-                "PartyB": LipanaMpesaPpassword.Business_short_code,
-                "PhoneNumber": number,  # replace with your phone number to get stk push
-                "CallBackURL": "https://sandbox.safaricom.co.ke/mpesa/",
-                "AccountReference": "KimTech",
-                "TransactionDesc": "Buy me Coffee"
-            }
+        number = request.POST.get('number')
+        amount = request.POST.get('amount')
 
-            response = requests.post(api_url, json=request, headers=headers)
-            return redirect('/')
-            messages.success(request, 'Submitted Succesifully')
+        if number and amount:
+            # Handle M-Pesa payment functionality
+            if len(number) == 12 and number.startswith('2547'):
+                access_token = MpesaAccessToken.validated_mpesa_access_token
+                api_url = "https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest"
+                headers = {"Authorization": "Bearer %s" % access_token}
+                payload = {
+                    "BusinessShortCode": LipanaMpesaPpassword.Business_short_code,
+                    "Password": LipanaMpesaPpassword.decode_password,
+                    "Timestamp": LipanaMpesaPpassword.lipa_time,
+                    "TransactionType": "CustomerPayBillOnline",
+                    "Amount": amount,
+                    "PartyA": number,
+                    "PartyB": LipanaMpesaPpassword.Business_short_code,
+                    "PhoneNumber": number,
+                    "CallBackURL": "https://sandbox.safaricom.co.ke/mpesa/",
+                    "AccountReference": "KimTech",
+                    "TransactionDesc": "Buy me Coffee"
+                }
+
+                response = requests.post(api_url, json=payload, headers=headers)
+                messages.success(request, 'Submitted successfully')
+                return redirect('/')
+            else:
+                messages.error(request, f"Phone Number '{number}' is not valid or in the wrong format")
+                return redirect('/')
         else:
-            messages.error(request, f"Phone Number '{number}' is not valid or Wrong format")
+            # Handle contact form submission
+            name = request.POST.get('name')
+            email = request.POST.get('email')
+            subject = request.POST.get('subject')
+            message = request.POST.get('message')
+
+            form = ContactUs.objects.create(name=name, email=email, subject=subject, message=message)
+            form.save()
+            messages.info(request, 'Submitted successfully. We will get back to you soon.')
             return redirect('/')
-    return render(request, 'app/index.html')
+
+    image = AddImage.objects.all()
+    project = AddProject.objects.all()
+    blog = AddBlog.objects.all()
+    contact = ContactUs.objects.all()
+    review = AddReview.objects.all()
+
+    context = {
+        'image': image,
+        'project': project,
+        'blog': blog,
+        'contact': contact,
+        'review': review
+    }
+    return render(request, 'app/index.html', context)
 
 @csrf_exempt
 def register_urls(request):
@@ -108,33 +134,6 @@ def confirmation(request):
     }
 
     return JsonResponse(dict(context))
-
-def Home(request):
-    if request.method == 'POST':
-        name = request.POST['name']
-        email = request.POST['email']
-        subject = request.POST['subject']
-        message = request.POST['message']
-        
-        form = ContactUs.objects.create(name=name, email=email, subject=subject, message=message)
-        form.save()
-        messages.info(request, 'Submitted successifully, we will get back to you soon')
-        return redirect('/')
-    
-    image = AddImage.objects.all()
-    project = AddProject.objects.all()
-    blog = AddBlog.objects.all()
-    contact = ContactUs.objects.all()
-    review = AddReview.objects.all()
-        
-    context = {
-        'image':image,
-        'project':project,
-        'blog':blog,
-        'contact':contact,
-        'review':review
-    }
-    return render(request, 'app/index.html', context)
 
 def adminPage(request):
     image = AddImage.objects.all()

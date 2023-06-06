@@ -3,7 +3,6 @@ from . import views
 
 urlpatterns = [
     path('', views.lipa_na_mpesa_online, name='lipa_na_mpesa'),
-    path('home', views.Home, name='home'),
     path('access/token', views.getAccessToken, name='get_mpesa_access_token'),
 
     # register, confirmation, validation and callback urls
