@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import auth, User
 from django.contrib import messages
 from .models import AddBlog, AddReview, AddImage, AddProject, ContactUs, MpesaPayment, Pay
@@ -135,6 +136,7 @@ def confirmation(request):
 
     return JsonResponse(dict(context))
 
+@login_required(login_url='log_in')
 def adminPage(request):
     image = AddImage.objects.all()
     project = AddProject.objects.all()
@@ -168,6 +170,7 @@ def Login(request):
         return render(request, 'app/login.html')
     return render(request, 'app/login.html')
 
+@login_required(login_url='log_in')
 def addBlog(request):
     form = BlogForm()
     if request.method == 'POST':
@@ -178,6 +181,7 @@ def addBlog(request):
     context = {'form':form}
     return render(request, 'app/add_blog.html', context)
 
+@login_required(login_url='log_in')
 def updateBlog(request, pk):
     blog = AddBlog.objects.get(id=pk)
     form = BlogForm(instance=blog)
@@ -189,6 +193,7 @@ def updateBlog(request, pk):
     context = {'form':form}
     return render(request, 'app/add_blog.html', context)
 
+@login_required(login_url='log_in')
 def addImage(request):
     form = ImageForm()
     if request.method == 'POST':
@@ -199,6 +204,7 @@ def addImage(request):
     context = {'form':form}
     return render(request, 'app/add_image.html', context)
 
+@login_required(login_url='log_in')
 def updateImage(request, pk):
     image = AddImage.objects.get(id=pk)
     form = ImageForm(instance=image)
@@ -210,6 +216,7 @@ def updateImage(request, pk):
     context = {'form':form}
     return render(request, 'app/add_image.html', context)
 
+@login_required(login_url='log_in')
 def addProject(request):
     form = ProjectForm()
     if request.method == 'POST':
@@ -220,6 +227,7 @@ def addProject(request):
     context = {'form':form}
     return render(request, 'app/add_project.html', context)
 
+@login_required(login_url='log_in')
 def updateProject(request, pk):
     project = AddProject.objects.get(id=pk)
     form = ProjectForm(instance=project)
@@ -231,6 +239,7 @@ def updateProject(request, pk):
     context = {'form':form}
     return render(request, 'app/add_project.html', context)
 
+@login_required(login_url='log_in')
 def addReview(request):
     form = ReviewForm()
     if request.method == 'POST':
@@ -241,6 +250,7 @@ def addReview(request):
     context = {'form':form}
     return render(request, 'app/add_review.html', context)
 
+@login_required(login_url='log_in')
 def updateReview(request, pk):
     review = AddReview.objects.get(id=pk)
     form = ReviewForm(instance=review)
@@ -252,6 +262,7 @@ def updateReview(request, pk):
     context = {'form':form}
     return render(request, 'app/add_review.html', context)
 
+@login_required(login_url='log_in')
 def Contact(request):
     contact = ContactUs.objects.all()
         
@@ -261,6 +272,7 @@ def Contact(request):
     return render(request, 'app/contact.html', context)
 
 
+@login_required(login_url='log_in')
 def Logout(request):
     if request.method == 'POST':
         auth.logout(request)
@@ -268,6 +280,7 @@ def Logout(request):
         messages.info(request, 'You have been loged out')
     return render(request, 'app/logout.html')
 
+@login_required(login_url='log_in')
 def DeleteBlog(request, pk):
     blog = AddBlog.objects.get(id=pk)
     if request.method == 'POST':
@@ -279,6 +292,7 @@ def DeleteBlog(request, pk):
     }
     return render(request, 'app/delete.html', context)
 
+@login_required(login_url='log_in')
 def DeleteImage(request, pk):
     image = AddImage.objects.get(id=pk)
     if request.method == 'POST':
@@ -290,6 +304,7 @@ def DeleteImage(request, pk):
     }
     return render(request, 'app/delete.html', context)
 
+@login_required(login_url='log_in')
 def DeleteProject(request, pk):
     project = AddProject.objects.get(id=pk)
     if request.method == 'POST':
@@ -301,6 +316,7 @@ def DeleteProject(request, pk):
     }
     return render(request, 'app/delete.html', context)
 
+@login_required(login_url='log_in')
 def DeleteReview(request, pk):
     review = AddReview.objects.get(id=pk)
     if request.method == 'POST':
