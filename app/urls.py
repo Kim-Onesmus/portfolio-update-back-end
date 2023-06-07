@@ -11,7 +11,7 @@ urlpatterns = [
     path('c2b/validation', views.validation, name="validation"),
     path('c2b/callback', views.call_back, name="call_back"),
 
-    path('login', views.Login, name='login'),
+    path('log_in', views.Login, name='log_in'),
     path('adminPage', views.adminPage, name='adminPage'),
     path('addBlog', views.addBlog, name='addBlog'),
     path('updateBlog/<str:pk>/', views.updateBlog, name='updateBlog'),
