@@ -23,6 +23,17 @@
     <!-- Customized Bootstrap Stylesheet -->
     <link href="{% static 'css/style.css' %}" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'css/pop.css' %}">
+    <style>
+        .blink {
+            animation: blinker 3s step-start infinite;
+          }
+          
+          @keyframes blinker {
+            50% {
+              opacity: 0;
+            }
+          }
+    </style>
 </head>
 
 <body data-spy="scroll" data-target=".navbar" data-offset="51">
@@ -187,10 +198,14 @@
             <form method="post" class="text-dark" action="">
                 {% csrf_token %}
                 <h4 style="text-align: center;width: 100%;" class="bg-primary"><u>Buy Me Coffee</u></h4>
+                <p> <span style="font-size: 20px;color:red;">Note: </span>I have used M-Pesa credentials to initiate STK-Push <br>
+                    Use<span class="blink" style="font-size: 20px;color:dodgerblue;animation: blinker 1s linear infinite;">
+                         0792613079</span> to buy me Coffee
+                </p>
                 <table id="zero_config" class="table table-striped no-wrap text-dark">
                     <div class="col-lg-12">
                         <div class="form-group">
-                            <label class="text-dark" for="uname">Phone Number</label>
+                            <label class="text-dark" for="uname">Phone Number (2547....)</label>
                             <input class="form-control" id="uname" type="number" name="number"
                                 placeholder="Enter your phone number" required>
                         </div>
