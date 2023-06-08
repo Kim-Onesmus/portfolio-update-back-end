@@ -165,7 +165,7 @@ def Login(request):
             return redirect('adminPage')
         else:
             messages.error(request, 'Invalid details')
-            return redirect('login')
+            return redirect('log_in')
     else:
         return render(request, 'app/login.html')
     return render(request, 'app/login.html')
