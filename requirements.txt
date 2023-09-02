@@ -633,3 +633,4 @@ zipp==1.0.0
 zope.deprecation==4.4.0
 zope.event==4.4
 zope.interface==5.2.0
+psycopg2-binary~=2.9.6
