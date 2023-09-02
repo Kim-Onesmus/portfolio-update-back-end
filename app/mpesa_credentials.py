@@ -6,14 +6,13 @@ import base64
 
 
 class MpesaC2bCredential:
-    consumer_key = 'gvmRX9peDcWeYTRRHBrOZh42jITwtl4N'
-    consumer_secret = 'Vsmx9HaLqGPdAhPQ'
+    consumer_key = 'g21cnI6ZGS3g6ko0kZjw7mtFA1q8YEPn'
+    consumer_secret = '7rA5GPozwZWDptzr'
     api_URL = 'https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials'
 
 
 class MpesaAccessToken:
-    r = requests.get(MpesaC2bCredential.api_URL,
-                     auth=HTTPBasicAuth(MpesaC2bCredential.consumer_key, MpesaC2bCredential.consumer_secret))
+    r = requests.get(MpesaC2bCredential.api_URL, auth=HTTPBasicAuth(MpesaC2bCredential.consumer_key, MpesaC2bCredential.consumer_secret))
     mpesa_access_token = json.loads(r.text)
     validated_mpesa_access_token = mpesa_access_token['access_token']
 
