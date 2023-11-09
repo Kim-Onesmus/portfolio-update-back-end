@@ -79,14 +79,13 @@ WSGI_APPLICATION = 'portfolio.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
 
-# postgres://portfoliodb_xkat_user:azzY7oP4MyIxWEOQ2qbIKo0PYdwPfsU4@dpg-cl6bpnquuipc73calbag-a.oregon-postgres.render.com/portfoliodb_xkat
 
 DATABASES = {
 'default': dj_database_url.parse('postgres://portfoliodb_xkat_user:azzY7oP4MyIxWEOQ2qbIKo0PYdwPfsU4@dpg-cl6bpnquuipc73calbag-a.oregon-postgres.render.com/portfoliodb_xkat')
