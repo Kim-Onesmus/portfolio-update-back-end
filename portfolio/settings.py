@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
+import dj_database_url
 from pathlib import Path
 import os
 
@@ -49,6 +50,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'portfolio.urls'
@@ -84,9 +86,11 @@ DATABASES = {
     }
 }
 
-# DATABASES = {
-# 'default': dj_database_url.config(default='postgresql://postgres:MPyU2z7XcelNPCxUCEPM@containers-us-west-62.railway.app:7952/railway', conn_max_age=1000)
-# }
+# postgres://portfoliodb_xkat_user:azzY7oP4MyIxWEOQ2qbIKo0PYdwPfsU4@dpg-cl6bpnquuipc73calbag-a.oregon-postgres.render.com/portfoliodb_xkat
+
+DATABASES = {
+'default': dj_database_url.parse('postgres://portfoliodb_xkat_user:azzY7oP4MyIxWEOQ2qbIKo0PYdwPfsU4@dpg-cl6bpnquuipc73calbag-a.oregon-postgres.render.com/portfoliodb_xkat')
+}
 
 
 # Password validation
