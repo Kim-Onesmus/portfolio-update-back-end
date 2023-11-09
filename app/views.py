@@ -276,7 +276,7 @@ def Contact(request):
 def Logout(request):
     if request.method == 'POST':
         auth.logout(request)
-        return redirect('login')
+        return redirect('/')
         messages.info(request, 'You have been loged out')
     return render(request, 'app/logout.html')
 
