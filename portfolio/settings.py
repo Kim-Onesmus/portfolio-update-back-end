@@ -22,12 +22,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get("SECRET_KEY")
+SECRET_KEY = 'django-insecure-9*)^59r@+dfzihji$rz&w6we#g*q01_j^8r4fune5@=2f-t29q'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get('DEBUG', 'False').lower() == "true"
+DEBUG = True
 
-ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS").split("")
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -86,9 +86,9 @@ WSGI_APPLICATION = 'portfolio.wsgi.application'
 #     }
 # }
 
-database_url = os.environ.get("DATABASE_URL")
+
 DATABASES = {
-'default': dj_database_url.parse(database_url)
+'default': dj_database_url.parse('postgres://portfolio_19lp_user:IC7WBV9UDltsCmsylYTGfwfMDMoEDYqa@dpg-cns81ffjbltc739o5abg-a.oregon-postgres.render.com/portfolio_19lp')
 }
 
 
