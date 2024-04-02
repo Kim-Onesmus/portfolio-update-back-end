@@ -13,8 +13,14 @@ class MpesaC2bCredential:
 
 class MpesaAccessToken:
     r = requests.get(MpesaC2bCredential.api_URL, auth=HTTPBasicAuth(MpesaC2bCredential.consumer_key, MpesaC2bCredential.consumer_secret))
-    mpesa_access_token = json.loads(r.text)
-    validated_mpesa_access_token = mpesa_access_token['access_token']
+    try:
+        mpesa_access_token = json.loads(r.text)
+        validated_mpesa_access_token = mpesa_access_token['access_token']
+    except json.decoder.JSONDecodeError as e:
+        print("Error decoding JSON:", e)
+        # Handle the error gracefully, e.g., set validated_mpesa_access_token to None
+        validated_mpesa_access_token = None
+
 
 
 class LipanaMpesaPpassword:

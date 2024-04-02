@@ -10,7 +10,6 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
-import dj_database_url
 from pathlib import Path
 import os
 
@@ -22,16 +21,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-# SECRET_KEY = 'django-insecure-9*)^59r@+dfzihji$rz&w6we#g*q01_j^8r4fune5@=2f-t29q'
-SECRET_KEY = os.environ.get("SECRET_KEY")
-
+SECRET_KEY = 'django-insecure-9*)^59r@+dfzihji$rz&w6we#g*q01_j^8r4fune5@=2f-t29q'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get('DEBUG', 'False').lower() == 'true'
+DEBUG = True
 
-# ALLOWED_HOSTS = ['onesmus-kimanzi.onrender.com/']
-
-ALLOWED_HOSTS = os.environ.get("ALLOWED_HOST").split(" ")
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -54,7 +49,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    # 'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'portfolio.urls'
@@ -83,18 +77,16 @@ WSGI_APPLICATION = 'portfolio.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
-
-
-database_url = os.environ.get('DATABASE_URL')
 DATABASES = {
-'default': dj_database_url.parse(database_url)
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
 }
+
+# DATABASES = {
+# 'default': dj_database_url.config(default='postgresql://postgres:MPyU2z7XcelNPCxUCEPM@containers-us-west-62.railway.app:7952/railway', conn_max_age=1000)
+# }
 
 
 # Password validation
@@ -132,9 +124,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = 'static/'
-STATIC_ROOT = [
-    os.path.join(BASE_DIR, 'staticfiles_builds', 'static')
-]
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATICFILES_DIR = os.path.join(BASE_DIR, 'app/static')
 
 
