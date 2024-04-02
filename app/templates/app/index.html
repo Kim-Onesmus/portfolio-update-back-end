@@ -263,26 +263,20 @@
                         <div class="position-relative mb-4">
                             <i class="far fa-dot-circle text-primary position-absolute" style="top: 2px; left: -32px;"></i>
                             <h5 class="font-weight-bold mb-1">Web Designer</h5>
-                            <p class="mb-2"><strong>Rongo University</strong> | <small>2023 - 2023</small></p>
-                            <p>During my attatchment period i redesigned Rongo University website</p>
+                            <!-- <p class="mb-2"><strong>Rongo University</strong> | <small>2023 - 2023</small></p> -->
+                            <p>My portfolio reflects my versatility in design, showcasing projects where I've created captivating user interfaces, engaging visuals, and seamless user experiences. From designing layouts and graphics to prototyping interactions, I have demonstrated a knack for combining aesthetics with functionality to produce designs that resonate with users and align with client objectives.</p>
                         </div>
                         <div class="position-relative mb-4">
                             <i class="far fa-dot-circle text-primary position-absolute" style="top: 2px; left: -32px;"></i>
                             <h5 class="font-weight-bold mb-1">Web Developer</h5>
-                            <p class="mb-2"><strong>Rongo Shops</strong> | <small>2022 - 2023</small></p>
-                            <p>I developed Rongo Shops for Rongo University and fertanity online shopping platform.</p>
-                        </div>
-                        <div class="position-relative mb-4">
-                            <i class="far fa-dot-circle text-primary position-absolute" style="top: 2px; left: -32px;"></i>
-                            <h5 class="font-weight-bold mb-1">Web Developer</h5>
-                            <p class="mb-2"><strong>Rongo University</strong> | <small>2023 - 2023</small></p>
-                            <p>I developed a Leave management system for Rongo University Workers during my attatchment period</p>
+                            <!-- <p class="mb-2"><strong>Rongo Shops</strong> | <small>2022 - 2023</small></p> -->
+                            <p>I have a proven track record of successfully developing a wide range of projects, spanning from simple static websites to complex web applications. My experience includes utilizing a variety of coding languages and frameworks such as HTML, CSS, JavaScript, Python, Django and more. Through these projects, I have honed my skills in problem-solving, debugging, and optimizing code to deliver efficient and robust solutions.</p>
                         </div>
                         <div class="position-relative mb-4">
                             <i class="far fa-dot-circle text-primary position-absolute" style="top: 2px; left: -32px;"></i>
                             <h5 class="font-weight-bold mb-1">Web Management</h5>
                             <p class="mb-2"><strong>Rongo Shops</strong> | <small>2022 - 2023</small></p>
-                            <p>I run and manage RongoShops website</p>
+                            <p>In managing various projects, I have cultivated strong leadership and organizational skills. I've overseen the planning, execution, and delivery of multiple web development initiatives, collaborating closely with cross-functional teams to ensure alignment with project goals and objectives. My experience includes managing timelines, resources, and budgets effectively, resulting in the successful completion of projects on schedule and within scope</p>
                         </div>
                     </div>
                 </div>
@@ -392,15 +386,7 @@
                     </div>
                     <p>I am a skilled app designer with a strong proficiency in Figma, a leading design tool in the industry. 
                         Through my expertise in Figma, 
-                        I have successfully crafted visually captivating and user-friendly web designs.</p>
-                </div>
-                <div class="col-lg-4 col-md-6 text-center mb-5">
-                    <div class="d-flex align-items-center justify-content-center mb-4">
-                        <i class="fab fa-2x fa-apple service-icon bg-primary text-white mr-3"></i>
-                        <h4 class="font-weight-bold m-0">Apps Development</h4>
-                    </div>
-                    <p>I am a skilled app developer with expertise in Flutter, a powerful cross-platform framework, 
-                        enabling me to create high-quality and engaging mobile applications.</p>
+                        I have successfully crafted visually captivating and user-friendly App designs.</p>
                 </div>
             </div>
         </div>
@@ -419,12 +405,6 @@
                         {% if project %}
                         <li class="btn btn-sm btn-outline-primary m-1 active" data-filter="{{project}}">All</li>
                         {% endif %}
-                        {% if project %}
-                        <li class="btn btn-sm btn-outline-primary m-1" data-filter="{{project.tittle.design}}">Design</li>
-                        {% endif %}
-                        {% if project %}
-                        <li class="btn btn-sm btn-outline-primary m-1" data-filter="{{project.tittle.development}}">Development</li>
-                        {% endif %}
                     </ul>
                 </div>
             </div>
@@ -433,10 +413,10 @@
                 <div class="col-lg-4 col-md-6 mb-4 portfolio-item">
                     <div class="position-relative overflow-hidden mb-2">
                         <img class="img-fluid rounded w-100" src="{{data.image.url}}" alt="">
-                        <div class="portfolio-btn bg-primary d-flex align-items-center justify-content-center">
-                            <a href="{{data.image.url}}" data-lightbox="portfolio">
-                                <i class="fa fa-plus text-white" style="font-size: 40px;text-align: center;"><br>
-                                    <span style="font-size: 20px;">{{data.name}}</span>
+                        <div class="portfolio-btn bg-white d-flex align-items-center justify-content-center">
+                            <a href="{{data.url}}">
+                                <i class="fab fa-github" style="font-size: 40px;text-align: center;"><br>
+                                    <!-- <span style="font-size: 20px;">{{data.name}}</span> -->
                                 </i>
                             </a>
                         </div>
