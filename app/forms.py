@@ -46,5 +46,6 @@ class ReviewForm(forms.ModelForm):
         'name': forms.TextInput(attrs={'class': 'form-control'}),
         'profession': forms.TextInput(attrs={'class': 'form-control'}),
         'image': forms.ClearableFileInput(attrs={'class': 'form-control'}),
+        'rating': forms.NumberInput(attrs={'class': 'form-control', 'min': '0', 'max': '5'}),
         'messange': forms.Textarea(attrs={'class': 'form-control'}),
         }

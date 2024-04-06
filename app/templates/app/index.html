@@ -471,14 +471,14 @@
                             <span>{{data.profession}}</span>
                             <img class="img-fluid rounded-circle mx-auto mb-3" src="{{data.image.url}}" style="width: 80px; height: 80px;">
                             <p>{{data.messange}}</p>
-                            <div class="rating">
-                                {% for i in range(data.rating) %}
-                                    <span class="fa fa-star checked"></span>
+                            <div class="star-rating">
+                                {% for i in data.star_range %}
+                                <span style="color: orange;" class="fa fa-star checked"></span>
                                 {% endfor %}
-                                {% for i in range(5 - data.rating) %}
+                                {% for i in data.complement_range %}
                                     <span class="fa fa-star"></span>
                                 {% endfor %}
-                            </div>            
+                            </div>        
                         </div>
                         {% endfor %}
                         {% else %}

@@ -70,14 +70,17 @@ def lipa_na_mpesa_online(request):
     project = AddProject.objects.all()
     blog = AddBlog.objects.all()
     contact = ContactUs.objects.all()
-    review = AddReview.objects.all()
+    reviews = AddReview.objects.all()
+    for review in reviews:
+        review.star_range = range(review.rating)
+        review.complement_range = range(5 - review.rating)
 
     context = {
         'image': image,
         'project': project,
         'blog': blog,
         'contact': contact,
-        'review': review
+        'review': reviews
     }
     return render(request, 'app/index.html', context)
 
