@@ -445,12 +445,12 @@
                             <small class="text-white font-weight-bold text-uppercase p-4">{{data.date}}</small>
                         </div>
                     </div>
-                    <div class="like">
+                    <!-- <div class="like">
                         <i style="font-size: 25px; color: rgb(97, 179, 179);" class="far fa-thumbs-up like-icon"></i>
                         <span class="like-count">0</span>
                         <i style="font-size: 25px; color: rgb(182, 109, 41);" class="far fa-thumbs-down dislike-icon"></i>
                         <span class="dislike-count">0</span>
-                    </div>
+                    </div> -->
                     <h5 style="border-bottom: 2px solid cyan;">{{data.tittle}}</h5>
                     <h6>{{data.description}}</h6>
                     <p data-post-id="{{ data.id }}"></p>
@@ -639,26 +639,17 @@
     
                 // Save in local storage to prevent multiple likes/dislikes
                 localStorage.setItem(key, true);
+                
+                // Update like/dislike count in local storage
+                var countKey = postId + '-' + type + '-count';
+                localStorage.setItem(countKey, $countElement.text());
             });
     
             // Function to load existing likes/dislikes from local storage
             $('.like-icon, .dislike-icon').each(function() {
                 var postId = $(this).closest('.col-lg-4').find('p').data('post-id'); // Get the ID of the post
-                var likeKey = postId + '-like';
-                var dislikeKey = postId + '-dislike';
-                var likeCountKey = postId + '-like-count';
-                var dislikeCountKey = postId + '-dislike-count';
-    
-                if (localStorage.getItem(likeKey)) {
-                    $(this).filter('.like-icon').removeClass('far').addClass('fas');
-                }
-    
-                if (localStorage.getItem(dislikeKey)) {
-                    $(this).filter('.dislike-icon').removeClass('far').addClass('fas');
-                }
-    
-                var likeCount = localStorage.getItem(likeCountKey);
-                var dislikeCount = localStorage.getItem(dislikeCountKey);
+                var likeCount = localStorage.getItem(postId + '-like-count');
+                var dislikeCount = localStorage.getItem(postId + '-dislike-count');
     
                 if (likeCount) {
                     $(this).siblings('.like-count').text(likeCount);
