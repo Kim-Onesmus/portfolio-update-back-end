@@ -446,10 +446,14 @@
                         </div>
                     </div>
                     <div class="like">
-                        
+                        <i style="font-size: 25px; color: rgb(97, 179, 179);" class="far fa-thumbs-up like-icon"></i>
+                        <span class="like-count">0</span>
+                        <i style="font-size: 25px; color: rgb(182, 109, 41);" class="far fa-thumbs-down dislike-icon"></i>
+                        <span class="dislike-count">0</span>
                     </div>
                     <h5 style="border-bottom: 2px solid cyan;">{{data.tittle}}</h5>
                     <h6>{{data.description}}</h6>
+                    <p data-post-id="{{ data.id }}"></p>
                 </div>
                 {% endfor %}
             </div>
@@ -596,16 +600,80 @@
             message_ele.style.display = "none"
         }, 30000);
     </script>
-    <!-- Footer End -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
 
-    <!-- Scroll to Bottom -->
+    <script>
+        $(document).ready(function() {
+            // Function to handle like/dislike click
+            $('.like-icon, .dislike-icon').click(function() {
+                var type = $(this).hasClass('like-icon') ? 'like' : 'dislike'; // Determine if it's a like or dislike
+                var postId = $(this).closest('.col-lg-4').find('p').data('post-id'); // Get the ID of the post
+                var key = postId + '-' + type; // Construct a unique key for this post and type
+    
+                // Check if the user has already liked/disliked this post
+                if (localStorage.getItem(key)) {
+                    // Remove the like/dislike from local storage
+                    localStorage.removeItem(key);
+                    
+                    // Decrement the like/dislike count
+                    var $countElement = $(this).siblings('.' + type + '-count');
+                    var count = parseInt($countElement.text());
+                    $countElement.text(count - 1);
+                    
+                    // Toggle the color of the like/dislike icon
+                    $(this).toggleClass('far');
+                    $(this).toggleClass('fas');
+                    
+                    return; // Exit the function
+                }
+    
+                // Increment the like/dislike count
+                var $countElement = $(this).siblings('.' + type + '-count');
+                var count = parseInt($countElement.text());
+                $countElement.text(count + 1);
+    
+                // Toggle the color of the like/dislike icon
+                $(this).toggleClass('far');
+                $(this).toggleClass('fas');
+    
+                // Save in local storage to prevent multiple likes/dislikes
+                localStorage.setItem(key, true);
+            });
+    
+            // Function to load existing likes/dislikes from local storage
+            $('.like-icon, .dislike-icon').each(function() {
+                var postId = $(this).closest('.col-lg-4').find('p').data('post-id'); // Get the ID of the post
+                var likeKey = postId + '-like';
+                var dislikeKey = postId + '-dislike';
+                var likeCountKey = postId + '-like-count';
+                var dislikeCountKey = postId + '-dislike-count';
+    
+                if (localStorage.getItem(likeKey)) {
+                    $(this).filter('.like-icon').removeClass('far').addClass('fas');
+                }
+    
+                if (localStorage.getItem(dislikeKey)) {
+                    $(this).filter('.dislike-icon').removeClass('far').addClass('fas');
+                }
+    
+                var likeCount = localStorage.getItem(likeCountKey);
+                var dislikeCount = localStorage.getItem(dislikeCountKey);
+    
+                if (likeCount) {
+                    $(this).siblings('.like-count').text(likeCount);
+                }
+    
+                if (dislikeCount) {
+                    $(this).siblings('.dislike-count').text(dislikeCount);
+                }
+            });
+        });
+    </script>
+    
+    
     <i class="fa fa-2x fa-angle-down text-white scroll-to-bottom"></i>
-
-    <!-- Back to Top -->
     <a href="#" class="btn btn-outline-dark px-0 back-to-top"><i class="fa fa-angle-double-up"></i></a>
-
-
-    <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
     <script src="{% static 'lib/typed/typed.min.js' %}"></script>
