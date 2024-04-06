@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.validators import MinValueValidator, MaxValueValidator
 
 # Create your models here.
 IMAGE = {
@@ -31,7 +32,6 @@ class AddProject(models.Model):
     name = models.CharField(max_length=200)
     tittle = models.CharField(max_length=200, choices=PROJECT)
     image = models.ImageField(upload_to='media/')
-    url = models.URLField(max_length = 200, null=True)
     
     def __str__(self):
         return self.name
@@ -42,6 +42,7 @@ class AddReview(models.Model):
     profession = models.CharField(max_length=200)
     image = models.ImageField(upload_to='media/')
     messange = models.TextField(max_length=200)
+    rating = models.PositiveBigIntegerField(default=0, validators=[MinValueValidator(0), MaxValueValidator(5)])
     
     def __str__(self):
         return self.name

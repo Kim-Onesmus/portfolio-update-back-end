@@ -470,7 +470,15 @@
                             <h5 class="font-weight-bold m-0">{{data.name}}</h5>
                             <span>{{data.profession}}</span>
                             <img class="img-fluid rounded-circle mx-auto mb-3" src="{{data.image.url}}" style="width: 80px; height: 80px;">
-                            <h4 class="font-weight-light mb-4">{{data.messange}}</h4>
+                            <p>{{data.messange}}</p>
+                            <div class="rating">
+                                {% for i in range(data.rating) %}
+                                    <span class="fa fa-star checked"></span>
+                                {% endfor %}
+                                {% for i in range(5 - data.rating) %}
+                                    <span class="fa fa-star"></span>
+                                {% endfor %}
+                            </div>            
                         </div>
                         {% endfor %}
                         {% else %}
