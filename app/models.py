@@ -41,7 +41,7 @@ class AddReview(models.Model):
     name = models.CharField(max_length=200)
     profession = models.CharField(max_length=200)
     image = models.ImageField(upload_to='media/')
-    messange = models.TextField(max_length=200)
+    messange = models.TextField(max_length=1000)
     rating = models.PositiveBigIntegerField(default=0, validators=[MinValueValidator(0), MaxValueValidator(5)])
     
     def __str__(self):
