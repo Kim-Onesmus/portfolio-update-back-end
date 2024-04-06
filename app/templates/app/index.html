@@ -428,6 +428,30 @@
             </div>
         </div>
     </div>
+    <div class="container-fluid pt-5" id="blog">
+        <div class="container">
+            <div style="border-bottom: 2px solid dodgerblue;" class="position-relative d-flex align-items-center justify-content-center">
+                <h1 class="display-1 text-uppercase text-white" style="-webkit-text-stroke: 1px #dee2e6;">Blog</h1>
+                <h1 class="position-absolute text-uppercase text-primary">Latest Blog</h1>
+            </div>
+            <br>
+            <div class="row">
+                {% for data in blog reversed %}
+                <div class="col-lg-4 mb-5">
+                    <div class="position-relative mb-4">
+                        <img style="height: 280px;" class="img-fluid rounded w-100" src="{{data.image.url}}" alt="">
+                        <div class="blog-date">
+                            <!-- <h4 class="font-weight-bold mb-n1"></h4> -->
+                            <small class="text-white font-weight-bold text-uppercase p-4">{{data.date}}</small>
+                        </div>
+                    </div>
+                    <h5 style="border-bottom: 2px solid cyan;">{{data.tittle}}</h5>
+                    <h6>{{data.description}}</h6>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
 
     <br>
     <div class="container-fluid py-5" id="testimonial">
@@ -462,32 +486,6 @@
             </div>
         </div>
     </div>
-
-    <div class="container-fluid pt-5" id="blog">
-        <div class="container">
-            <div style="border-bottom: 2px solid dodgerblue;" class="position-relative d-flex align-items-center justify-content-center">
-                <h1 class="display-1 text-uppercase text-white" style="-webkit-text-stroke: 1px #dee2e6;">Blog</h1>
-                <h1 class="position-absolute text-uppercase text-primary">Latest Blog</h1>
-            </div>
-            <br>
-            <div class="row">
-                {% for data in blog %}
-                <div class="col-lg-4 mb-5">
-                    <div class="position-relative mb-4">
-                        <img style="height: 280px;" class="img-fluid rounded w-100" src="{{data.image.url}}" alt="">
-                        <div class="blog-date">
-                            <!-- <h4 class="font-weight-bold mb-n1"></h4> -->
-                            <small class="text-white font-weight-bold text-uppercase p-4">{{data.date}}</small>
-                        </div>
-                    </div>
-                    <h5 style="border-bottom: 2px solid cyan;">{{data.tittle}}</h5>
-                    <h6>{{data.description}}</h6>
-                </div>
-                {% endfor %}
-            </div>
-        </div>
-    </div>
-
 
     <!-- Contact Start -->
     <div class="container-fluid py-5" id="contact">
