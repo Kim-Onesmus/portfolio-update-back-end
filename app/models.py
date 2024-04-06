@@ -14,7 +14,7 @@ class AddBlog(models.Model):
     tittle = models.CharField(max_length=200)
     date = models.DateField()
     image = models.ImageField(upload_to='media/')
-    description = models.TextField(max_length=200)
+    description = models.TextField(max_length=500)
     
     def __str__(self):
         return self.tittle
