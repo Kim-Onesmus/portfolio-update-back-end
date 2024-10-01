@@ -44,7 +44,7 @@ def lipa_na_mpesa_online(request):
                     "PartyB": LipanaMpesaPpassword.Business_short_code,
                     "PhoneNumber": number,
                     "CallBackURL": "https://sandbox.safaricom.co.ke/mpesa/",
-                    "AccountReference": "KimTech",
+                    "AccountReference": "1333510888",
                     "TransactionDesc": "Buy me Coffee"
                 }
 

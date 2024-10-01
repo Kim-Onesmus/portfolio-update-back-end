@@ -41,8 +41,8 @@
 <body data-spy="scroll" data-target=".navbar" data-offset="51">
     <!-- Navbar Start -->
     <nav class="navbar fixed-top shadow-sm navbar-expand-lg bg-light navbar-light py-3 py-lg-0 px-lg-5">
-        <a href="index.html" class="navbar-brand ml-lg-3">
-            <h1 class="m-0 display-5"><span class="text-primary">Kim</span> Onesmus</h1>
+        <a href="{% url 'lipa_na_mpesa' %}" class="navbar-brand ml-lg-3">
+            <h1 class="m-0 display-5"><span style="color: #056cb2;">Onesmus</span> Kimanzi</h1>
         </a>
         <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
             <span class="navbar-toggler-icon"></span>
@@ -59,8 +59,6 @@
                 <a href="#blog" class="nav-item nav-link">Blog</a>
                 <a href="#contact" class="nav-item nav-link" >Contact</a>
             </div>
-            <button class="button btn btn-outline-primary mr-4" data-modal="modalOne" >Hire me</button>
-            <button class="button btn btn-outline-primary mr-4" data-modal="modalTwo" >Buy Me Coffee</button>
         </div>
     </nav>
 
@@ -104,9 +102,9 @@
                     <h3 class="text-white font-weight-normal mb-3">I'm</h3>
                     <h1 class="display-3 text-uppercase text-primary mb-2" style="-webkit-text-stroke: 2px #ffffff;">Onesmus Kimanzi</h1>
                     <h1 class="typed-text-output d-inline font-weight-lighter text-white"></h1>
-                    <div class="typed-text d-none">Web Designer, Web Developer, Mobile Developer, Front End Developer, Back-end Developer</div>
+                    <div class="typed-text d-none">Fullstack web Developer(Backend Heavy), Graphic Designer(Illustrator), Web Design(Figma), IT support</div>
                     <div class="d-flex align-items-center justify-content-center justify-content-lg-start pt-5">
-                        <a href="#" class="btn btn-outline-light mr-5">Download my Resume</a>
+                        <!-- <a href="#" class="btn btn-outline-light mr-5">Download my Resume</a> -->
                         <!-- <button type="button" class="btn-play" data-toggle="modal"
                             data-src="video.mp4" type="video/mp4" data-target="#videoModal">
                             <span></span>
@@ -135,16 +133,20 @@
                     {% endfor %}
                 </div>
                 <div class="col-lg-7">
-                    <h3 class="mb-4">Web Developer</h3>
-                    <p>I am a full stack web developer with expertise in front-end technologies such as HTML, CSS, and JavaScript, along with back-end development using Python and Django framework.</p>
+                    <h3 class="mb-4">Full-Stack Developer | IT Support Specialist | Python & Django Enthusiast</h3>
+                    <p>
+                        As a passionate full-stack web developer with a strong background in IT support, I specialize in creating seamless digital experiences that integrate both front-end and back-end technologies. My journey began with a deep interest in programming and systems management, which has since grown into a diverse skill set including HTML, CSS, JavaScript, Python, and frameworks like Django. Alongside my technical skills, I bring a commitment to solving complex problems, maintaining robust networks, and delivering user-centric solutions. My expertise spans everything from web development to network troubleshooting and system diagnostics, ensuring that I can handle every aspect of a project from start to finish.
+                        <br><br>
+                        I’ve had the privilege to work on impactful projects and contributing to various online platforms. My goal is to stay at the forefront of technological trends, constantly improving my craft to build innovative and scalable solutions for clients and businesses.    
+                    </p>
                     <div class="row mb-3">
-                        <div class="col-sm-6 py-2"><h6><b>Name: </b><span class="">Onesmus Kimanzi</span></h6></div>
-                        <div class="col-sm-6 py-2"><h6><b>Birthday: </b><span class="text-secondary">31 April 2001</span></h6></div>
-                        <div class="col-sm-6 py-2"><h6><b>Degree: </b><span class="text-secondary">Undergraduate</span></h6></div>
-                        <div class="col-sm-6 py-2"><h6><b>Experience: </b><span class="text-secondary">4 Years</span></h6></div>
+                        <div class="col-sm-6 py-2"><h6><b>Name: </b><span class="">Onesmus Kimanzi Muimi</span></h6></div>
+                        <div class="col-sm-6 py-2"><h6><b>Birthday: </b><span class="text-secondary">30 April 2001</span></h6></div>
+                        <div class="col-sm-6 py-2"><h6><b>Degree: </b><span class="text-secondary">BSc Computer Science</span></h6></div>
+                        <div class="col-sm-6 py-2"><h6><b>Experience: </b><span class="text-secondary">3 Years</span></h6></div>
                         <div class="col-sm-6 py-2"><h6><b>Phone: </b><span class="text-secondary">+254 792 61379</span></h6></div>
-                        <div class="col-sm-6 py-2"><h6><b>Email: </b><span class="text-secondary">kimonesmuske@gmail.com</span></h6></div>
-                        <div class="col-sm-6 py-2"><h6><b>Address: </b><span class="text-secondary">40404 Street, Rongo, Migori</span></h6></div>
+                        <div class="col-sm-6 py-2"><h6><b>Email: </b><span class="text-secondary">Kimonesmuske@gmail.com</span></h6></div>
+                        <div class="col-sm-6 py-2"><h6><b>Address: </b><span class="text-secondary">Nairobi, Kenya</span></h6></div>
                         <div class="col-sm-6 py-2"><h6><b>Teaching: </b><span class="text-secondary">Available</span></h6></div>
                     </div>
                     <button class="button btn btn-outline-primary mr-4" data-modal="modalOne" >Hire me</button>
@@ -239,22 +241,17 @@
                     <div class="border-left border-primary pt-2 pl-4 ml-2">
                         <div class="position-relative mb-4">
                             <i class="far fa-dot-circle text-primary position-absolute" style="top: 2px; left: -32px;"></i>
-                            <h5 class="font-weight-bold mb-1">Bachelors Degree In Computer Science</h5>
+                            <h5 class="font-weight-bold mb-1">Bachelor’s Degree in Computer Science</h5>
                             <p class="mb-2"><strong>Rongo University</strong> | <small>2020 - 2024</small></p>
-                            <p>I am actively engaged in my educational journey, pursuing a Bachelor's degree in Computer Science at Rongo University.
-                                This program provides me with a comprehensive understanding of various computer science concepts, 
-                                algorithms, and programming languages.
-                                Through my coursework, I am gaining valuable knowledge and skills in areas such as software development, 
-                                database management, and computer networks. 
+                            <p>I have successfully completed my Bachelor's degree in Computer Science at Rongo University, and I am currently awaiting graduation in December 2024. During my time at the university, I developed a solid foundation in software development, computer networks, and database management. I gained in-depth knowledge in various programming languages such as Python, C, C++, and mastered frameworks like Django. 
+                            </p>
+                            <p>Through both coursework and practical projects, I had the opportunity to apply theoretical concepts to real-world scenarios, enhancing my problem-solving skills and adaptability. One of my key achievements during this period was the development of a Leave Management System for Rongo University, showcasing my ability to deliver practical solutions. The experience I gained from my academic journey has prepared me well for the dynamic challenges of the tech industry.</p>
                         </div>
                         <div class="position-relative mb-4">
                             <i class="far fa-dot-circle text-primary position-absolute" style="top: 2px; left: -32px;"></i>
-                            <h5 class="font-weight-bold mb-1">K.C.S.E</h5>
+                            <h5 class="font-weight-bold mb-1">Kenya Certificate of Secondary Education (K.C.S.E)</h5>
                             <p class="mb-2"><strong>Kyatune Boys High School</strong> | <small>2016 - 2019</small></p>
-                            <p>I am proud to have completed my secondary education at Kyatune Boys High School, where I had the opportunity to develop both academically and personally. 
-                                During my time at Kyatune Boys High School, 
-                                I actively engaged in various leadership roles that helped shape my character and enhance my skills.
-                            </p>
+                            <p>I completed my secondary education at Kyatune Boys High School, where I developed a strong academic background and honed my leadership and teamwork skills. My high school years were instrumental in shaping my passion for technology, as I took on various leadership roles and actively participated in problem-solving activities that encouraged critical thinking. The knowledge and experiences I gained during this period laid a solid foundation for my university studies and career in computer science.</p>
                         </div>
                     </div>
                 </div>
@@ -264,21 +261,28 @@
                     <div class="border-left border-primary pt-2 pl-4 ml-2">
                         <div class="position-relative mb-4">
                             <i class="far fa-dot-circle text-primary position-absolute" style="top: 2px; left: -32px;"></i>
-                            <h5 class="font-weight-bold mb-1">Web Designer</h5>
-                            <!-- <p class="mb-2"><strong>Rongo University</strong> | <small>2023 - 2023</small></p> -->
-                            <p>My portfolio reflects my versatility in design, showcasing projects where I've created captivating user interfaces, engaging visuals, and seamless user experiences. From designing layouts and graphics to prototyping interactions, I have demonstrated a knack for combining aesthetics with functionality to produce designs that resonate with users and align with client objectives.</p>
+                            <h5 class="font-weight-bold mb-1">ICT Support and Web Developer</h5>
+                            <p class="mb-2"><strong>Rongo University - ICT Department</strong> | <small>(May 2023 - July 2023)</small></p>
+                            <p>
+                                Developed and implemented the Rongo University Leave Management System, streamlining the leave approval process for staff.
+                            </p>
+                            <p>
+                                Provided comprehensive IT support, including diagnosing and resolving hardware, software, and network issues, ensuring system efficiency across the university.
+                            </p>
+                            <p>
+                                Led the installation, configuration, and maintenance of computer hardware and software systems, improving the reliability of the university's ICT infrastructure.
+                            </p>
+                            <p>
+                                Actively participated in the rollout of software updates and patches, ensuring all systems were up-to-date and secure.
+                            </p>
                         </div>
                         <div class="position-relative mb-4">
                             <i class="far fa-dot-circle text-primary position-absolute" style="top: 2px; left: -32px;"></i>
-                            <h5 class="font-weight-bold mb-1">Web Developer</h5>
-                            <!-- <p class="mb-2"><strong>Rongo Shops</strong> | <small>2022 - 2023</small></p> -->
-                            <p>I have a proven track record of successfully developing a wide range of projects, spanning from simple static websites to complex web applications. My experience includes utilizing a variety of coding languages and frameworks such as HTML, CSS, JavaScript, Python, Django and more. Through these projects, I have honed my skills in problem-solving, debugging, and optimizing code to deliver efficient and robust solutions.</p>
-                        </div>
-                        <div class="position-relative mb-4">
-                            <i class="far fa-dot-circle text-primary position-absolute" style="top: 2px; left: -32px;"></i>
-                            <h5 class="font-weight-bold mb-1">Web Management</h5>
-                            <p class="mb-2"><strong>Rongo Shops</strong> | <small>2022 - 2023</small></p>
-                            <p>In managing various projects, I have cultivated strong leadership and organizational skills. I've overseen the planning, execution, and delivery of multiple web development initiatives, collaborating closely with cross-functional teams to ensure alignment with project goals and objectives. My experience includes managing timelines, resources, and budgets effectively, resulting in the successful completion of projects on schedule and within scope</p>
+                            <h5 class="font-weight-bold mb-1">Full-Stack Web Developed</h5>
+                            <p class="mb-2"><strong>My Brand(KimTech)</strong> <small></small></p>
+                            <p>Developed and deployed multiple web applications, including Rongo Shops, Kenya 47 News, and ICON Data and Learning, using technologies like Django, Python, HTML, CSS, and JavaScript.</p>
+                            <p>Worked closely with clients to gather requirements, design user-friendly interfaces, and implement full-stack solutions tailored to their business needs.</p>
+                            <p>Managed version control with GitHub and deployed projects on cloud platforms like Render and PythonAnywhere, ensuring high availability and reliability.</p>
                         </div>
                     </div>
                 </div>
@@ -307,19 +311,28 @@
                     <div class="skill mb-4">
                         <div class="d-flex justify-content-between">
                             <h6 class="font-weight-bold">CSS</h6>
-                            <h6 class="font-weight-bold">75%</h6>
+                            <h6 class="font-weight-bold">70%</h6>
                         </div>
                         <div class="progress">
-                            <div class="progress-bar bg-warning" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                            <div class="progress-bar bg-warning" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
                         </div>
                     </div>
                     <div class="skill mb-4">
                         <div class="d-flex justify-content-between">
-                            <h6 class="font-weight-bold">PHP</h6>
-                            <h6 class="font-weight-bold">30%</h6>
+                            <h6 class="font-weight-bold">Rest API</h6>
+                            <h6 class="font-weight-bold">60%</h6>
                         </div>
                         <div class="progress">
-                            <div class="progress-bar bg-secondary" role="progressbar" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
+                            <div class="progress-bar bg-secondary" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                    </div>
+                    <div class="skill mb-4">
+                        <div class="d-flex justify-content-between">
+                            <h6 class="font-weight-bold">Illustrator</h6>
+                            <h6 class="font-weight-bold">80%</h6>
+                        </div>
+                        <div class="progress">
+                            <div class="progress-bar bg-primary" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
                         </div>
                     </div>
                 </div>
@@ -337,10 +350,10 @@
                     <div class="skill mb-4">
                         <div class="d-flex justify-content-between">
                             <h6 class="font-weight-bold">Django</h6>
-                            <h6 class="font-weight-bold">70%</h6>
+                            <h6 class="font-weight-bold">80%</h6>
                         </div>
                         <div class="progress">
-                            <div class="progress-bar bg-dark" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
+                            <div class="progress-bar bg-dark" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
                         </div>
                     </div>
                     <div class="skill mb-4">
@@ -350,6 +363,15 @@
                         </div>
                         <div class="progress">
                             <div class="progress-bar bg-info" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                    </div>
+                    <div class="skill mb-4">
+                        <div class="d-flex justify-content-between">
+                            <h6 class="font-weight-bold">Version Control</h6>
+                            <h6 class="font-weight-bold">70%</h6>
+                        </div>
+                        <div class="progress">
+                            <div class="progress-bar bg-warning" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
                         </div>
                     </div>
                 </div>
@@ -365,66 +387,105 @@
             </div>
             <br>
             <div class="row pb-3">
-                <div class="col-lg-4 col-md-6 text-center mb-5">
+                <div class="col-lg-6 col-md-6 text-center mb-5">
                     <div class="d-flex align-items-center justify-content-center mb-4">
                         <i class="fa fa-2x fa-laptop service-icon bg-primary text-white mr-3"></i>
-                        <h4 class="font-weight-bold m-0">Web Design</h4>
+                        <h4 class="font-weight-bold m-0">IT Support & Network Maintenance</h4>
                     </div>
-                    <p>I am a skilled web designer with a strong proficiency in Figma, a leading design tool in the industry. 
-                        Through my expertise in Figma, 
-                        I have successfully crafted visually captivating and user-friendly web designs.</p>
+                    <p>With extensive experience in diagnosing and resolving hardware, software, and network issues, I ensure systems run smoothly. I offer services in installation, configuration, and maintenance of computer hardware, software, and networks.</p>
                 </div>
-                <div class="col-lg-4 col-md-6 text-center mb-5">
+                <div class="col-lg-6 col-md-6 text-center mb-5">
                     <div class="d-flex align-items-center justify-content-center mb-4">
                         <i class="fa fa-2x fa-laptop-code service-icon bg-primary text-white mr-3"></i>
-                        <h4 class="font-weight-bold m-0">Web Development</h4>
+                        <h4 class="font-weight-bold m-0">Full-Stack Web Development</h4>
                     </div>
-                    <p>I am a highly skilled web developer with expertise in HTML, CSS, JavaScript, and Python Django, enabling me to deliver robust and dynamic web solutions.</p>
+                    <p>I design and develop responsive websites using the latest technologies, ensuring a seamless experience across devices. From concept to launch, I build robust web applications using HTML, CSS, JavaScript, Python, and Django.</p>
                 </div>
-                <div class="col-lg-4 col-md-6 text-center mb-5">
+                <div class="col-lg-6 col-md-6 text-center mb-5">
                     <div class="d-flex align-items-center justify-content-center mb-4">
-                        <i class="fab fa-2x fa-android service-icon bg-primary text-white mr-3"></i>
-                        <h4 class="font-weight-bold m-0">Apps Design</h4>
+                        <i class="fa fa-2x fa-laptop service-icon bg-primary text-white mr-3"></i>
+                        <h4 class="font-weight-bold m-0">Custom Software Solutions</h4>
                     </div>
-                    <p>I am a skilled app designer with a strong proficiency in Figma, a leading design tool in the industry. 
-                        Through my expertise in Figma, 
-                        I have successfully crafted visually captivating and user-friendly App designs.</p>
+                    <p>Whether you need a custom web application or a management system, I develop tailored solutions that meet your business needs. I have successfully created management systems.</p>
                 </div>
+                <div class="col-lg-6 col-md-6 text-center mb-5">
+                    <div class="d-flex align-items-center justify-content-center mb-4">
+                        <i class="fa fa-2x fa-laptop-code service-icon bg-primary text-white mr-3"></i>
+                        <h4 class="font-weight-bold m-0">Graphic Design</h4>
+                    </div>
+                    <p>As a skilled graphic designer, I specialize in creating visually appealing designs tailored to your brand’s needs. From crafting unique logos, brochures, and business cards to designing engaging social media content.</p>
+                </div>                
             </div>
         </div>
     </div>
 
     <div class="container-fluid pt-5 pb-3" id="portfolio">
         <div class="container">
-            <div style="border-bottom: 2px solid dodgerblue;" class="position-relative d-flex align-items-center justify-content-center">
-                <h1 class="display-1 text-uppercase text-white" style="-webkit-text-stroke: 1px #dee2e6;">Projects</h1>
+            <div class="position-relative d-flex align-items-center justify-content-center">
+                <h1 class="display-1 text-uppercase text-white" style="-webkit-text-stroke: 1px #dee2e6;">Gallery</h1>
                 <h1 class="position-absolute text-uppercase text-primary">My Projects</h1>
             </div>
-            <br>
             <div class="row">
                 <div class="col-12 text-center mb-2">
                     <ul class="list-inline mb-4" id="portfolio-flters">
-                        {% if project %}
-                        <li class="btn btn-sm btn-outline-primary m-1 active" data-filter="{{project}}">All</li>
-                        {% endif %}
+                        <li class="btn btn-sm btn-outline-primary m-1 active"  data-filter="*">All</li>
+                        <li class="btn btn-sm btn-outline-primary m-1 " data-filter=".first">Web Developed</li>
+                        <li class="btn btn-sm btn-outline-primary m-1" data-filter=".second">Graphic Design</li>
+                        <li class="btn btn-sm btn-outline-primary m-1" data-filter=".third">Wed Design</li>
                     </ul>
                 </div>
             </div>
             <div class="row portfolio-container">
-                {% for data in project %}
-                <div class="col-lg-4 col-md-6 mb-4 portfolio-item">
+                {% for data in project reversed %}
+                {% if data.tittle == 'development' %}
+                <div class="col-lg-4 col-md-6 mb-4 portfolio-item first">
                     <div class="position-relative overflow-hidden mb-2">
-                        <img class="img-fluid rounded w-100" src="{{data.image.url}}" alt="">
+                        <img style="width: auto; height: 200px;" class="img-fluid rounded w-100" src="{{data.image.url}}" alt="">
                         <div class="portfolio-btn bg-white d-flex align-items-center justify-content-center">
                             <a href="{{data.url}}">
-                                <i class="fab fa-github" style="font-size: 40px;text-align: center;"><br>
-                                    <!-- <span style="font-size: 20px;">{{data.name}}</span> -->
+                                <i class="fa fa-globe" style="font-size: 40px;text-align: center;"><br>
+                                    <span style="font-size: 20px;">{{data.name}}</span>
                                 </i>
                             </a>
                         </div>
                     </div>
                     <p style="color: black;text-align: center;font-size: 18px;">{{data.name}}</p>
                 </div>
+                {% endif %}
+                {% endfor %}
+                {% for data in project reversed %}
+                {% if data.tittle == 'graphic_design' %}
+                <div class="col-lg-4 col-md-6 mb-4 portfolio-item second">
+                    <div class="position-relative overflow-hidden mb-2">
+                        <img style="width: auto; height: 300px;" class="img-fluid rounded w-100" src="{{data.image.url}}" alt="">
+                        <div class="portfolio-btn bg-white d-flex align-items-center justify-content-center">
+                            <a href="{{data.url}}">
+                                <i class="fa fa-globe" style="font-size: 40px;text-align: center;"><br>
+                                    <span style="font-size: 20px;">{{data.name}}</span>
+                                </i>
+                            </a>
+                        </div>
+                    </div>
+                    <p style="color: black;text-align: center;font-size: 18px;">{{data.name}}</p>
+                </div>
+                {% endif %}
+                {% endfor %}
+                {% for data in project reversed %}
+                {% if data.tittle == 'web_design' %}
+                <div class="col-lg-4 col-md-6 mb-4 portfolio-item third">
+                    <div class="position-relative overflow-hidden mb-2">
+                        <img style="width: auto; height: 200px;" class="img-fluid rounded w-100" src="{{data.image.url}}" alt="">
+                        <div class="portfolio-btn bg-white d-flex align-items-center justify-content-center">
+                            <a href="{{data.url}}">
+                                <i class="fa fa-globe" style="font-size: 40px;text-align: center;"><br>
+                                    <span style="font-size: 20px;">{{data.name}}</span>
+                                </i>
+                            </a>
+                        </div>
+                    </div>
+                    <p style="color: black;text-align: center;font-size: 18px;">{{data.name}}</p>
+                </div>
+                {% endif %}
                 {% endfor %}
             </div>
         </div>

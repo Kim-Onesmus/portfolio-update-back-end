@@ -8,8 +8,9 @@ IMAGE = {
 }
 
 PROJECT = {
-    ('design','Design'),
-    ('development', 'Development'),
+    ('graphic_design','Graphic Design'),
+    ('development', 'Web Development'),
+    ('web_design', 'Web Design'),
 }
 class AddBlog(models.Model):
     tittle = models.CharField(max_length=200)
