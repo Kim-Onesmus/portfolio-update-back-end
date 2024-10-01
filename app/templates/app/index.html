@@ -6,23 +6,14 @@
     <meta charset="utf-8">
     <title>Onesmus Kimanzi</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <meta content="Onesmus Kimanzi Muimi, portfolio, render, python, Django M-Pesa" name="keywords">
-    <meta content="kimonesmuske@gmail.com" name="description">
+    <meta content="Onesmus Kimanzi Muimi, Onesmus Kimanzi, Onesmus , Kimanzi Muimi, Muimi, portfolio, full-stack developer, Python, Django, M-Pesa, IT Support, graphic design" name="keywords">
+    <meta content="Onesmus Kimanzi Muimi is a skilled full-stack developer and IT support professional with expertise in Python, Django, and graphic design. Contact: Kimonesmuske@gmail.com or Call +254792613079" name="description">    
     <link rel="icon" href="{% static 'img/kim.png' %}" type="image" style="width: auto; height: auto; border-radius: 50%;">
-
-
-    <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet"> 
-
-    <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
-
-    <!-- Libraries Stylesheet -->
     <link href="{% static 'lib/owlcarousel/assets/owl.carousel.min.css' %}" rel="stylesheet">
     <link href="{% static 'lib/lightbox/css/lightbox.min.css' %}" rel="stylesheet">
-
-    <!-- Customized Bootstrap Stylesheet -->
     <link href="{% static 'css/style.css' %}" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'css/pop.css' %}">
     <style>
@@ -78,7 +69,7 @@
         </div>
     </div>
 
-    <div class="container-fluid bg-info d-flex align-items-center mb-5 py-5" id="home" style="min-height: 100vh;">
+    <div class="container-fluid d-flex align-items-center mb-5 py-5" id="home" style="min-height: 100vh; background-color: #056cb2;">
         <div class="container">
             <div id="floating">
                 {% for message in messages %}
@@ -119,9 +110,9 @@
 
     <div class="container-fluid py-5" id="about">
         <div class="container">
-            <div style="border-bottom: 2px solid dodgerblue;" class="position-relative d-flex align-items-center justify-content-center">
+            <div style="border-bottom: 2px solid #a3075e;" class="position-relative d-flex align-items-center justify-content-center">
                 <h1 class="display-1 text-uppercase text-white" style="-webkit-text-stroke: 1px #dee2e6;">About</h1>
-                <h1 class="position-absolute text-uppercase text-primary">About Me</h1>
+                <h1 class="position-absolute text-uppercase" style="color: #056cb2;">About Me</h1>
             </div>
             <br>
             <div class="row align-items-center">
@@ -149,8 +140,8 @@
                         <div class="col-sm-6 py-2"><h6><b>Address: </b><span class="text-secondary">Nairobi, Kenya</span></h6></div>
                         <div class="col-sm-6 py-2"><h6><b>Teaching: </b><span class="text-secondary">Available</span></h6></div>
                     </div>
-                    <button class="button btn btn-outline-primary mr-4" data-modal="modalOne" >Hire me</button>
-                    <button class="button btn btn-outline-primary mr-4" data-modal="modalTwo" >Buy Me Coffee</button>
+                    <button style="outline: 2px solid #a3075e; color: black" class="button btn mr-4" data-modal="modalOne" >Hire me</button>
+                    <button style="outline: 2px solid #a3075e; color: black" class="button btn mr-4" data-modal="modalTwo" >Buy Me Coffee</button>
                 </div>
             </div>
         </div>
@@ -161,7 +152,7 @@
           <div class="contact-form">
             <span style="font-size: 50px;" class="close">&times;</span><br>
             <form action="">
-            <h4 style="text-align: center;width: 100%;" class="bg-primary"><u>Hire Me</u></h4>
+            <h4 style="text-align: center;width: 100%; background-color:#056cb2;"><u>Hire Me</u></h4>
             <p>You can reach me through a Call, Email, WhatsApp or Telegram <br>
                 The ICONS will direct you to all these
             </p>
@@ -198,10 +189,10 @@
             <span style="font-size: 50px;" class="close">&times;</span><br>
             <form method="post" class="text-dark" action="">
                 {% csrf_token %}
-                <h4 style="text-align: center;width: 100%;" class="bg-primary"><u>Buy Me Coffee</u></h4>
+                <h4 style="text-align: center;width: 100%;background-color:#056cb2"><u>Buy Me Coffee</u></h4>
                 <p> <span style="font-size: 20px;color:red;">Note: </span>I have used M-Pesa credentials to initiate STK-Push <br>
                     Once my Business Short Code is out i will Update <br>
-                    For now use M-Pesa send money<span class="blink" style="font-size: 20px;color:dodgerblue;animation: blinker 1s linear infinite;">
+                    For now use M-Pesa send money<span class="blink" style="font-size: 20px;color:#056cb2;;animation: blinker 1s linear infinite;">
                          0792613079</span> to buy me Coffee.
                 </p>
                 <table id="zero_config" class="table table-striped no-wrap text-dark">
@@ -220,7 +211,7 @@
                         </div>
                     </div>
                     <div class="col-lg-12 text-center">
-                        <button type="submit" class="btn btn-block btn-dark">Submit</button>
+                        <button style="background-color: #056cb2;" type="submit" class="btn btn-block">Submit</button>
                     </div>
                 </table>
             </form>
@@ -230,9 +221,9 @@
 
     <div class="container-fluid py-5" id="qualification">
         <div class="container">
-            <div style="border-bottom: 2px solid dodgerblue;" class="position-relative d-flex align-items-center justify-content-center">
+            <div style="border-bottom: 2px solid #a3075e;" class="position-relative d-flex align-items-center justify-content-center">
                 <h1 class="display-1 text-uppercase text-white" style="-webkit-text-stroke: 1px #dee2e6;">Quality</h1>
-                <h1 class="position-absolute text-uppercase text-primary">Education & Expericence</h1>
+                <h1 class="position-absolute text-uppercase" style="color: #056cb2;">Education & Expericence</h1>
             </div>
             <br>
             <div class="row align-items-center">
@@ -240,7 +231,7 @@
                     <h3 class="mb-4">My Education</h3>
                     <div class="border-left border-primary pt-2 pl-4 ml-2">
                         <div class="position-relative mb-4">
-                            <i class="far fa-dot-circle text-primary position-absolute" style="top: 2px; left: -32px;"></i>
+                            <i class="far fa-dot-circle position-absolute" style="top: 2px; left: -32px; color:#a3075e"></i>
                             <h5 class="font-weight-bold mb-1">Bachelor’s Degree in Computer Science</h5>
                             <p class="mb-2"><strong>Rongo University</strong> | <small>2020 - 2024</small></p>
                             <p>I have successfully completed my Bachelor's degree in Computer Science at Rongo University, and I am currently awaiting graduation in December 2024. During my time at the university, I developed a solid foundation in software development, computer networks, and database management. I gained in-depth knowledge in various programming languages such as Python, C, C++, and mastered frameworks like Django. 
@@ -248,7 +239,7 @@
                             <p>Through both coursework and practical projects, I had the opportunity to apply theoretical concepts to real-world scenarios, enhancing my problem-solving skills and adaptability. One of my key achievements during this period was the development of a Leave Management System for Rongo University, showcasing my ability to deliver practical solutions. The experience I gained from my academic journey has prepared me well for the dynamic challenges of the tech industry.</p>
                         </div>
                         <div class="position-relative mb-4">
-                            <i class="far fa-dot-circle text-primary position-absolute" style="top: 2px; left: -32px;"></i>
+                            <i class="far fa-dot-circle position-absolute" style="top: 2px; left: -32px;  color:#a3075e"></i>
                             <h5 class="font-weight-bold mb-1">Kenya Certificate of Secondary Education (K.C.S.E)</h5>
                             <p class="mb-2"><strong>Kyatune Boys High School</strong> | <small>2016 - 2019</small></p>
                             <p>I completed my secondary education at Kyatune Boys High School, where I developed a strong academic background and honed my leadership and teamwork skills. My high school years were instrumental in shaping my passion for technology, as I took on various leadership roles and actively participated in problem-solving activities that encouraged critical thinking. The knowledge and experiences I gained during this period laid a solid foundation for my university studies and career in computer science.</p>
@@ -260,7 +251,7 @@
                     <h3 class="mb-4">My Expericence</h3>
                     <div class="border-left border-primary pt-2 pl-4 ml-2">
                         <div class="position-relative mb-4">
-                            <i class="far fa-dot-circle text-primary position-absolute" style="top: 2px; left: -32px;"></i>
+                            <i class="far fa-dot-circle position-absolute" style="top: 2px; left: -32px; color:#a3075e"></i>
                             <h5 class="font-weight-bold mb-1">ICT Support and Web Developer</h5>
                             <p class="mb-2"><strong>Rongo University - ICT Department</strong> | <small>(May 2023 - July 2023)</small></p>
                             <p>
@@ -277,7 +268,7 @@
                             </p>
                         </div>
                         <div class="position-relative mb-4">
-                            <i class="far fa-dot-circle text-primary position-absolute" style="top: 2px; left: -32px;"></i>
+                            <i class="far fa-dot-circle position-absolute" style="top: 2px; left: -32px; color:#a3075e"></i>
                             <h5 class="font-weight-bold mb-1">Full-Stack Web Developed</h5>
                             <p class="mb-2"><strong>My Brand(KimTech)</strong> <small></small></p>
                             <p>Developed and deployed multiple web applications, including Rongo Shops, Kenya 47 News, and ICON Data and Learning, using technologies like Django, Python, HTML, CSS, and JavaScript.</p>
@@ -292,9 +283,9 @@
 
     <div class="container-fluid py-5" id="skill">
         <div class="container">
-            <div  style="border-bottom: 2px solid dodgerblue;" class="position-relative d-flex align-items-center justify-content-center">
+            <div  style="border-bottom: 2px solid #a3075e" class="position-relative d-flex align-items-center justify-content-center">
                 <h1 class="display-1 text-uppercase text-white" style="-webkit-text-stroke: 1px #dee2e6;">Skills</h1>
-                <h1 class="position-absolute text-uppercase text-primary">My Skills</h1>
+                <h1 class="position-absolute text-uppercase" style="color: #056cb2;">My Skills</h1>
             </div>
             <br>
             <div class="row align-items-center">
@@ -381,9 +372,9 @@
 
     <div class="container-fluid pt-5" id="service">
         <div class="container">
-            <div style="border-bottom: 2px solid dodgerblue;" class="position-relative d-flex align-items-center justify-content-center">
+            <div style="border-bottom: 2px solid #a3075e" class="position-relative d-flex align-items-center justify-content-center">
                 <h1 class="display-1 text-uppercase text-white" style="-webkit-text-stroke: 1px #dee2e6;">Service</h1>
-                <h1 class="position-absolute text-uppercase text-primary">My Services</h1>
+                <h1 class="position-absolute text-uppercase" style="color: #056cb2;">My Services</h1>
             </div>
             <br>
             <div class="row pb-3">
@@ -493,16 +484,16 @@
     <br>
     <div class="container-fluid pt-5" id="blog">
         <div class="container">
-            <div style="border-bottom: 2px solid dodgerblue;" class="position-relative d-flex align-items-center justify-content-center">
+            <div style="border-bottom: 2px solid #a3075e" class="position-relative d-flex align-items-center justify-content-center">
                 <h1 class="display-1 text-uppercase text-white" style="-webkit-text-stroke: 1px #dee2e6;">Blog</h1>
-                <h1 class="position-absolute text-uppercase text-primary">Latest Blog</h1>
+                <h1 class="position-absolute text-uppercase" style="color: #056cb2;">Latest Blog</h1>
             </div>
             <br>
             <div class="row">
                 {% for data in blog reversed %}
                 <div class="col-lg-4 mb-5">
                     <div class="position-relative mb-4">
-                        <img style="height: 280px;" class="img-fluid rounded w-100" src="{{data.image.url}}" alt="">
+                        <img style="height: 290px;" class="img-fluid rounded w-100" src="{{data.image.url}}" alt="">
                         <div class="blog-date">
                             <!-- <h4 class="font-weight-bold mb-n1"></h4> -->
                             <small class="text-white font-weight-bold text-uppercase p-4">{{data.date}}</small>
@@ -525,9 +516,9 @@
 
     <div class="container-fluid py-5" id="testimonial">
         <div class="container">
-            <div style="border-bottom: 2px solid dodgerblue;" class="position-relative d-flex align-items-center justify-content-center">
+            <div style="border-bottom: 2px solid #a3075e;" class="position-relative d-flex align-items-center justify-content-center">
                 <h1 class="display-1 text-uppercase text-white" style="-webkit-text-stroke: 1px #dee2e6;">Review</h1>
-                <h1 class="position-absolute text-uppercase text-primary">Clients Say</h1>
+                <h1 class="position-absolute text-uppercase" style="color: #056cb2;">Clients Say</h1>
             </div>
             <br>
             <div class="row justify-content-center">
@@ -567,9 +558,9 @@
     <!-- Contact Start -->
     <div class="container-fluid py-5" id="contact">
         <div class="container">
-            <div style="border-bottom: 2px solid dodgerblue;" class="position-relative d-flex align-items-center justify-content-center">
+            <div style="border-bottom: 2px solid #a3075e;" class="position-relative d-flex align-items-center justify-content-center">
                 <h1 class="display-1 text-uppercase text-white" style="-webkit-text-stroke: 1px #dee2e6;">Contact</h1>
-                <h1 class="position-absolute text-uppercase text-primary">Contact Me</h1>
+                <h1 class="position-absolute text-uppercase" style="color: #056cb2;">Contact Me</h1>
             </div>
             <br>
             <div class="row justify-content-center">
