@@ -183,41 +183,84 @@
         </div>
     </div>
 
+    <!-- First Modal (Already existing) -->
     <div id="modalTwo" class="modal">
         <div class="modal-content">
-          <div class="contact-form">
-            <span style="font-size: 50px;" class="close">&times;</span><br>
-            <form method="post" class="text-dark" action="">
-                {% csrf_token %}
-                <h4 style="text-align: center;width: 100%;background-color:#056cb2"><u>Buy Me Coffee</u></h4>
-                <p> <span style="font-size: 20px;color:red;">Note: </span>I have used M-Pesa credentials to initiate STK-Push <br>
-                    Once my Business Short Code is out i will Update <br>
-                    For now use M-Pesa send money<span class="blink" style="font-size: 20px;color:#056cb2;;animation: blinker 1s linear infinite;">
-                         0792613079</span> to buy me Coffee.
-                </p>
-                <table id="zero_config" class="table table-striped no-wrap text-dark">
+            <div class="contact-form">
+                <span style="font-size: 50px;" class="close">&times;</span><br>
+                <form class="text-dark" id="paymentForm">
+                    {% csrf_token %}
+                    <h4 style="text-align: center; width: 100%; background-color: #056cb2; color: white; padding: 10px;">
+                        Support My Journey - Buy Me Coffee
+                    </h4>
+                    <p style="font-size: 18px; text-align: center; color: #444;">
+                        Every cup you buy means the world to me. <br> Thank you for helping make my dreams a reality!
+                    </p>
+
                     <div class="col-lg-12">
                         <div class="form-group">
                             <label class="text-dark" for="uname">Phone Number (2547....)</label>
-                            <input class="form-control" id="uname" type="number" name="number"
+                            <input class="form-control" id="number" type="number" name="number"
                                 placeholder="Enter your phone number" required>
                         </div>
                     </div>
                     <div class="col-lg-12">
                         <div class="form-group">
                             <label class="text-dark" for="pwd">Amount</label>
-                            <input class="form-control" id="pwd" type="number" name="amount"
-                                placeholder="Enter Amount" required>
+                            <input class="form-control" id="amount" type="number" name="amount" placeholder="Enter Amount"
+                                required>
                         </div>
                     </div>
                     <div class="col-lg-12 text-center">
-                        <button style="background-color: #056cb2;" type="submit" class="btn btn-block">Submit</button>
+                        <button style="background-color: #056cb2; color: #ffffff;" type="button" id="submitPayment"
+                            class="btn btn-block">Submit</button>
                     </div>
-                </table>
-            </form>
-          </div>
+                </form>
+            </div>
         </div>
     </div>
+
+    <!-- Waiting Modal -->
+    <div id="waitingModal" class="modal" style="display:none;">
+        <div style="padding: 20px;" class="modal-content">
+            <div style="text-align: center;">
+                <div class="spinner-border text-primary" role="status">
+                    <span></span>
+                </div>
+                <h5 id="processingText" style="margin-top: 10px;"> </h5>
+                <h5>Please wait while we process your payment...</h5>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div id="successModal" class="modal">
+        <div style="padding: 20px;" class="modal-content">
+            <div style="text-align: center;">
+                <div style="font-size: 50px; color: green;">&#10004;</div>
+                <h5>Payment Successful!</h5>
+                <p>Thank you for helping make my dreams a reality!</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Error Modal -->
+    <div id="errorModal" class="modal" style="display:none;">
+        <div style="padding: 20px;" class="modal-content">
+            <div style="text-align: center;">
+                <div style="font-size: 50px; color: red;">&#9888</div>
+                <h5>Payment Failed</h5>
+                <p id="errorMessage">There was an error processing your payment. Please try again later.</p>
+                <div class="progress" style="height: 5px;">
+                    <div id="errorProgressBar" class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0"
+                        aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
 
     <div class="container-fluid py-5" id="qualification">
         <div class="container">
@@ -627,6 +670,7 @@
             </p>
         </div>
     </div>
+
     <script>
         let modalBtns = [...document.querySelectorAll(".button")];
         modalBtns.forEach(function (btn) {
@@ -728,6 +772,7 @@
     <script src="{% static 'lib/isotope/isotope.pkgd.min.js' %}"></script>
     <script src="{% static 'lib/lightbox/js/lightbox.min.js' %}"></script>
     <script src="{% static 'js/main.js' %}"></script>
+    <script src="{% static 'js/payment.js' %}"></script>
 </body>
 
 </html>

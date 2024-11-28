@@ -1,7 +1,30 @@
 from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
+import random, string
+
+PAY_STATUS = (
+    ('Unpaid', 'Unpaid'),
+    ('Paid', 'Paid')
+)
 
 # Create your models here.
+def generate_order_id():
+    while True:
+        unique_id = ''.join(random.choices(string.ascii_uppercase + string.digits, k=15))
+        if not buyMeCoffee.objects.filter(id=unique_id).exists():
+            return unique_id
+ 
+class buyMeCoffee(models.Model):
+    id = models.CharField(primary_key=True, max_length=15, default=generate_order_id, editable=False)
+    phone_number = models.CharField(max_length=20)
+    amount = models.CharField(max_length=20)
+    receipt_number = models.CharField(max_length=20, blank=True, null=True)
+    transaction_date = models.DateTimeField(blank=True, null=True)
+    merchant_request_id = models.CharField(max_length=200, blank=True, null=True)
+    checkout_request_id = models.CharField(max_length=200, blank=True, null=True)
+    status = models.CharField(max_length=200, choices=PAY_STATUS, default='Unpaid')
+
+
 IMAGE = {
     ('top','Top Image'),
     ('about','About Image'),
@@ -54,60 +77,6 @@ class ContactUs(models.Model):
     email = models.EmailField()
     subject = models.CharField(max_length=200)
     message = models.TextField(max_length=200)
-    
-class Pay(models.Model):
-    number = models.PositiveBigIntegerField(max_length=13)
-    amount = models.DecimalField(max_digits=10, decimal_places=2)
-
-   
-class BaseModel(models.Model):
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-    class Meta:
-        abstract = True
-
-
-# M-pesa Payment models
-
-class MpesaCalls(BaseModel):
-    ip_address = models.TextField()
-    caller = models.TextField()
-    conversation_id = models.TextField()
-    content = models.TextField()
-
-    class Meta:
-        verbose_name = 'Mpesa Call'
-        verbose_name_plural = 'Mpesa Calls'
-
-
-class MpesaCallBacks(BaseModel):
-    ip_address = models.TextField()
-    caller = models.TextField()
-    conversation_id = models.TextField()
-    content = models.TextField()
-
-    class Meta:
-        verbose_name = 'Mpesa Call Back'
-        verbose_name_plural = 'Mpesa Call Backs'
-
-
-class MpesaPayment(BaseModel):
-    amount = models.DecimalField(max_digits=10, decimal_places=2)
-    description = models.TextField()
-    type = models.TextField()
-    reference = models.TextField()
-    first_name = models.CharField(max_length=100)
-    middle_name = models.CharField(max_length=100)
-    last_name = models.CharField(max_length=100)
-    phone_number = models.TextField()
-    organization_balance = models.DecimalField(max_digits=10, decimal_places=2)
-
-    class Meta:
-        verbose_name = 'Mpesa Payment'
-        verbose_name_plural = 'Mpesa Payments'
-
-    def __str__(self):
-        return self.first_name    
+      
     
     

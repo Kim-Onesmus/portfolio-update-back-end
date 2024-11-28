@@ -2,14 +2,12 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('', views.lipa_na_mpesa_online, name='lipa_na_mpesa'),
-    path('access/token', views.getAccessToken, name='get_mpesa_access_token'),
+    path('', views.Index, name='lipa_na_mpesa'),
+    
+    path('buy_me_coffee/', views.BuyMeCoffee, name='buy_me_cofee'),
+    path('check_payment_status', views.CheckPaymentStatus, name='check_payment_status'),
 
-    # register, confirmation, validation and callback urls
-    path('c2b/register', views.register_urls, name="register_mpesa_validation"),
-    path('c2b/confirmation', views.confirmation, name="confirmation"),
-    path('c2b/validation', views.validation, name="validation"),
-    path('c2b/callback', views.call_back, name="call_back"),
+    path('c2b/callback', views.Callback, name="callback"),
 
     path('log_in', views.Login, name='log_in'),
     path('adminPage', views.adminPage, name='adminPage'),

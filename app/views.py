@@ -2,69 +2,48 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import auth, User
 from django.contrib import messages
-from .models import AddBlog, AddReview, AddImage, AddProject, ContactUs, MpesaPayment, Pay
+from .models import AddBlog, AddReview, AddImage, AddProject, ContactUs, buyMeCoffee
 from .forms import BlogForm, ImageForm, ProjectForm, ReviewForm
 from django.http import HttpResponse, JsonResponse
-import requests
-from requests.auth import HTTPBasicAuth
-import json
-from . mpesa_credentials import MpesaAccessToken, LipanaMpesaPpassword
+from django.urls import reverse
+import os, requests, base64, json
 from django.views.decorators.csrf import csrf_exempt
+from dotenv import load_dotenv
+import time
+
+load_dotenv()
 
 
-# Create your views here.
-def getAccessToken(request):
-    consumer_key = 'gvmRX9peDcWeYTRRHBrOZh42jITwtl4N'
-    consumer_secret = 'Vsmx9HaLqGPdAhPQ'
-    api_URL = 'https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials'
+def AccessToken(request):
+    client_id = os.getenv('KCB_CONSUMER_KEY')
+    client_secret = os.getenv('KCB_CONSUMER_SECRET')
+    auth_value = base64.b64encode(f"{client_id}:{client_secret}".encode()).decode()
+    url = f"{os.getenv('KCB_BASE_URL')}/token?grant_type=client_credentials"
     
-    r = request.get(api_URL, auth=HTTPBasicAuth(consumer_key, consumer_secret))
-    mpesa_access_token = json.loads(r.text)
-    validated_mpesa_access_token = mpesa_access_token['access_token']
-    return HttpResponse(validated_mpesa_access_token)
+    headers = {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Authorization': f'Basic {auth_value}'
+    }
+    response = requests.post(url, headers=headers)
+    
+    if response.status_code == 200:
+        token = response.json().get('access_token')
+        return token 
+    return JsonResponse({'error': 'Unable to retrieve access token'}, status=500)
 
-def lipa_na_mpesa_online(request):
+
+
+def Index(request):
     if request.method == 'POST':
-        number = request.POST.get('number')
-        amount = request.POST.get('amount')
+        name = request.POST.get('name')
+        email = request.POST.get('email')
+        subject = request.POST.get('subject')
+        message = request.POST.get('message')
 
-        if number and amount:
-            # Handle M-Pesa payment functionality
-            if len(number) == 12 and number.startswith('2547'):
-                access_token = MpesaAccessToken.validated_mpesa_access_token
-                api_url = "https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest"
-                headers = {"Authorization": "Bearer %s" % access_token}
-                payload = {
-                    "BusinessShortCode": LipanaMpesaPpassword.Business_short_code,
-                    "Password": LipanaMpesaPpassword.decode_password,
-                    "Timestamp": LipanaMpesaPpassword.lipa_time,
-                    "TransactionType": "CustomerPayBillOnline",
-                    "Amount": amount,
-                    "PartyA": number,
-                    "PartyB": LipanaMpesaPpassword.Business_short_code,
-                    "PhoneNumber": number,
-                    "CallBackURL": "https://sandbox.safaricom.co.ke/mpesa/",
-                    "AccountReference": "1333510888",
-                    "TransactionDesc": "Buy me Coffee"
-                }
-
-                response = requests.post(api_url, json=payload, headers=headers)
-                messages.success(request, 'Submitted successfully')
-                return redirect('/')
-            else:
-                messages.error(request, f"Phone Number '{number}' is not valid or in the wrong format")
-                return redirect('/')
-        else:
-            # Handle contact form submission
-            name = request.POST.get('name')
-            email = request.POST.get('email')
-            subject = request.POST.get('subject')
-            message = request.POST.get('message')
-
-            form = ContactUs.objects.create(name=name, email=email, subject=subject, message=message)
-            form.save()
-            messages.info(request, 'Submitted successfully. We will get back to you soon.')
-            return redirect('/')
+        form = ContactUs.objects.create(name=name, email=email, subject=subject, message=message)
+        form.save()
+        messages.info(request, 'Submitted successfully. I will get back to you soon.')
+        return redirect('/')
 
     image = AddImage.objects.all()
     project = AddProject.objects.all()
@@ -84,60 +63,178 @@ def lipa_na_mpesa_online(request):
     }
     return render(request, 'app/index.html', context)
 
+
+
+def BuyMeCoffee(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body.decode('utf-8'))
+            number = data.get('number')
+            amount = data.get('amount')
+
+            if not number or not amount:
+                return JsonResponse({'status': 400, 'message': 'Number and amount are required.'}, status=400)
+
+            if len(number) != 12 or not number.startswith('2547'):
+                return JsonResponse({'status': 400, 'message': f"Phone Number '{number}' is not valid or in the wrong format."}, status=400)
+
+            user = buyMeCoffee(
+                phone_number=number,
+                amount=amount,
+                receipt_number = '',
+                transaction_date = '',
+                merchant_request_id = '',
+                checkout_request_id = '',
+            )
+            access_token = AccessToken(request)
+            url = f"{os.getenv('KCB_BASE_URL')}/mm/api/request/1.0.0/stkpush"
+            headers = {
+                'Authorization': f'Bearer {access_token}',
+                'Content-Type': 'application/json'
+            }
+            payload = {
+                "phoneNumber": number,
+                "amount": amount,
+                "invoiceNumber": "7932911-Kim_Technologies",
+                "sharedShortCode": True,
+                "orgShortCode": "",
+                "orgPassKey": "",
+                "callbackUrl": f"{request.build_absolute_uri(reverse('callback'))}?user_id={user.id}",
+                "transactionDescription": "Buy me Coffee"
+            }
+            print('User ID', user.id)
+            response = requests.post(url, headers=headers, json=payload)
+            print('Response', response.json())
+
+            if response.status_code == 200:
+                response_data = response.json().get('response', {})
+                if response_data.get('ResponseCode') == '0':
+                    user.save()
+                    return JsonResponse({
+                        'status': 200,
+                        'message': '📲 STK Push Sent! ✅ Check your 📱 phone to complete the payment. 💳',
+                        'id': user.id
+                    })
+                else:
+                    return JsonResponse({
+                        'status': 500,
+                        'message': response_data.get('ResponseDescription', 'An error occured while initiating payment, Please try agein!!.'),
+                        'id': user.id
+                    })
+            else:
+                return JsonResponse({
+                    'status': 500,
+                    'message': response_data.get('ResponseDescription', 'An error occured while initiating payment, Please try agein later!!.')
+                })
+
+        except json.JSONDecodeError:
+            return JsonResponse({'status': 400, 'message': 'Invalid JSON data.'}, status=400)
+        except Exception as e:
+            return JsonResponse({'status': 500, 'message': str(e)}, status=500)
+
+    return JsonResponse({'error': 'Invalid request method.'}, status=405)
+
+
+
 @csrf_exempt
-def register_urls(request):
-    access_token = MpesaAccessToken.validated_mpesa_access_token
-    api_url = "https://sandbox.safaricom.co.ke/mpesa/c2b/v1/registerurl"
-    headers = {"Authorization": "Bearer %s" % access_token}
-    options = {"ShortCode": LipanaMpesaPpassword.Test_c2b_shortcode,
-               "ResponseType": "Completed",
-               "ConfirmationURL": "https://mydomain.com/confirmation",
-               "ValidationURL": "https://mydomain.com/validation"}
-    response = requests.post(api_url, json=options, headers=headers)
+def Callback(request):
+    print('Callback received, Processing data')
+    if request.method == "POST":
+        try:
+            user_id = request.GET.get("user_id")
+            print('User Id', user_id)
+            if not user_id:
+                return JsonResponse({"error": "User id not provided in callback URL"}, status=400)
+            
+            callback_data = json.loads(request.body)
+            print('Callback Data', callback_data)
 
-    return HttpResponse(response.text)
+            stk_callback = callback_data.get("Body", {}).get("stkCallback", {})
+            result_code = stk_callback.get("ResultCode", None)
+            result_desc = stk_callback.get("ResultDesc", "")
+            merchant_request_id = stk_callback.get("MerchantRequestID", "")
+            checkout_request_id = stk_callback.get("CheckoutRequestID", "")
+            callback_metadata = stk_callback.get("CallbackMetadata", {}).get("Item", [])
+
+            amount = None
+            receipt_number = None
+            transaction_date = None
+            phone_number = None
+
+            for item in callback_metadata:
+                name = item.get("Name")
+                value = item.get("Value", None)
+                if name == "Amount":
+                    amount = value
+                elif name == "MpesaReceiptNumber":
+                    receipt_number = value
+                elif name == "TransactionDate":
+                    transaction_date = value
+                elif name == "PhoneNumber":
+                    phone_number = value
+
+            # print(f"MerchantRequestID: {merchant_request_id}")
+            # print(f"CheckoutRequestID: {checkout_request_id}")
+            # print(f"ResultCode: {result_code}, ResultDesc: {result_desc}")
+            # print(f"Amount: {amount}, MpesaReceiptNumber: {receipt_number}")
+            # print(f"TransactionDate: {transaction_date}, PhoneNumber: {phone_number}")
+
+            if result_code == 0:
+                pay = buyMeCoffee.objects.get(id=user_id)
+                pay.receipt_number = receipt_number,
+                pay.transaction_date = transaction_date,
+                pay.merchant_request_id = merchant_request_id,
+                pay.checkout_request_id = checkout_request_id,
+                pay.status = 'Paid'
+                pay.save()
+                
+                return JsonResponse({
+                    'status': 200,
+                    'message': 'Payment made successfully. Thank you for helping make my dreams a reality',
+                })
+            else:
+                return JsonResponse({
+                    'status': 500,
+                    'message': f'{result_desc}',
+                })
+        except json.JSONDecodeError:
+            return JsonResponse({"error": "Invalid JSON format"}, status=400)
+    return JsonResponse({"error": "Invalid request"}, status=400)
 
 
-@csrf_exempt
-def call_back(request):
-    pass
+def CheckPaymentStatus(request):
+    user_id = request.GET.get('user_id')
+    if not user_id:
+        return JsonResponse({'message': ' ID is required'}, status=400)
+    try:
+        timeout = 30
+        interval = 2
+        elapsed_time = 0
+
+        while elapsed_time < timeout:
+            pay = buyMeCoffee.objects.get(id=user_id)
+            if pay.status == "Paid":
+                return JsonResponse({
+                    'message': pay.result_desc,
+                    'status': 200,
+                    'data': pay.status
+                }, status=200)
+            time.sleep(interval)
+            elapsed_time += interval
+        return JsonResponse({
+            'message': pay.result_desc,
+            'status': 400,
+            'data': pay.status
+        }, status=400)
+    except:
+        pay = buyMeCoffee.objects.get(id=user_id)
+        return JsonResponse({
+            'message': pay.result_desc,
+            'status': 400,
+            'data': pay.status
+        }, status=400)
 
 
-@csrf_exempt
-def validation(request):
-
-    context = {
-        "ResultCode": 0,
-        "ResultDesc": "Accepted"
-    }
-    return JsonResponse(dict(context))
-
-
-@csrf_exempt
-def confirmation(request):
-    mpesa_body =request.body.decode('utf-8')
-    mpesa_payment = json.loads(mpesa_body)
-
-    payment = MpesaPayment(
-        first_name=mpesa_payment['FirstName'],
-        last_name=mpesa_payment['LastName'],
-        middle_name=mpesa_payment['MiddleName'],
-        description=mpesa_payment['TransID'],
-        phone_number=mpesa_payment['MSISDN'],
-        amount=mpesa_payment['TransAmount'],
-        reference=mpesa_payment['BillRefNumber'],
-        organization_balance=mpesa_payment['OrgAccountBalance'],
-        type=mpesa_payment['TransactionType'],
-
-    )
-    payment.save()
-
-    context = {
-        "ResultCode": 0,
-        "ResultDesc": "Accepted"
-    }
-
-    return JsonResponse(dict(context))
 
 @login_required(login_url='log_in')
 def adminPage(request):
