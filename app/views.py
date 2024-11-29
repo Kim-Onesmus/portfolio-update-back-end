@@ -81,10 +81,6 @@ def BuyMeCoffee(request):
             user = buyMeCoffee(
                 phone_number=number,
                 amount=amount,
-                receipt_number = '',
-                transaction_date = '',
-                merchant_request_id = '',
-                checkout_request_id = '',
             )
             access_token = AccessToken(request)
             url = f"{os.getenv('KCB_BASE_URL')}/mm/api/request/1.0.0/stkpush"
