@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 
-            if (response.status === 200 && response.response_code === 0 ) {
+            if (response.status_code == 200 && response.json().get('response', {}).get('ResponseCode') == '0') {
                 document.getElementById('modalTwo').style.display = 'none';
                 document.getElementById('waitingModal').style.display = 'block';
 
