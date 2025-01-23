@@ -10,6 +10,11 @@ import os, requests, base64, json
 from django.views.decorators.csrf import csrf_exempt
 from dotenv import load_dotenv
 import time
+from datetime import datetime
+from django.core.cache import cache
+from django.conf import settings
+from django.core.files.storage import default_storage
+from django.core.mail import send_mail
 
 load_dotenv()
 
@@ -32,7 +37,6 @@ def AccessToken(request):
     return JsonResponse({'error': 'Unable to retrieve access token'}, status=500)
 
 
-
 def Index(request):
     if request.method == 'POST':
         name = request.POST.get('name')
@@ -42,28 +46,96 @@ def Index(request):
 
         form = ContactUs.objects.create(name=name, email=email, subject=subject, message=message)
         form.save()
+        
+                
+        subject = "New Portfolio Contact"
+        message = f'{name}\n\n{email}\n\n{form.subject}\n\n{message}'
+        from_email = settings.DEFAULT_FROM_EMAIL
+        recipient_list = ['Kimonesmuske@gmail.com',]
+
+        send_mail(subject, message, from_email, recipient_list)
+        
         messages.info(request, 'Submitted successfully. I will get back to you soon.')
         return redirect('/')
+    
 
-    image = AddImage.objects.all()
-    project = AddProject.objects.all()
-    blog = AddBlog.objects.all()
-    contact = ContactUs.objects.all()
-    reviews = AddReview.objects.all()
-    for review in reviews:
-        review.star_range = range(review.rating)
-        review.complement_range = range(5 - review.rating)
+    image = [
+        {
+            'id': img.id,
+            'title': img.tittle,
+            'image_url': default_storage.url(img.image.name)  # Use full S3 URL
+        }
+        for img in AddImage.objects.all()
+    ]
+    project = [
+        {
+            'id': proj.id,
+            'name': proj.name,
+            'title': proj.tittle,
+            'image_url': default_storage.url(proj.image.name)  # Use full S3 URL
+        }
+        for proj in AddProject.objects.all()
+    ]
+    blog = [
+        {
+            'id': b.id,
+            'title': b.tittle,
+            'date': b.date,
+            'image_url': default_storage.url(b.image.name),  # Use full S3 URL
+            'description': b.description
+        }
+        for b in AddBlog.objects.all()
+    ]
+    reviews = [
+        {
+            'id': r.id,
+            'name': r.name,
+            'profession': r.profession,
+            'image_url': default_storage.url(r.image.name),  # Use full S3 URL
+            'message': r.messange,
+            'rating': r.rating,
+            'star_range': list(range(r.rating)),
+            'complement_range': list(range(5 - r.rating)),
+        }
+        for r in AddReview.objects.filter(is_approved=True)
+    ]
 
-    context = {
+    # Prepare data for caching
+    cached_data = {
         'image': image,
         'project': project,
         'blog': blog,
-        'contact': contact,
-        'review': reviews
+        'review': reviews,
     }
-    return render(request, 'app/index.html', context)
 
+    return render(request, 'app/index.html', {'cached_data': cached_data})
 
+def ReviewForms(request):
+    if request.method == 'POST':
+        name = request.POST['name']
+        profession = request.POST['profession']
+        image = request.FILES['image']
+        rating = request.POST['rating']
+        message = request.POST['message']
+        
+        review_details = AddReview.objects.create(
+            name=name,
+            profession=profession,
+            image=image,
+            rating=rating,
+            messange=message
+        )
+        review_details.save()
+        
+        subject = "New Portfolio Review"
+        message = f'{name}\n\n{profession}\n\n{rating}\n\n{message}'
+        from_email = settings.DEFAULT_FROM_EMAIL
+        recipient_list = ['Kimonesmuske@gmail.com',]
+
+        send_mail(subject, message, from_email, recipient_list)
+        
+        messages.success(request, 'Review Submitted Successfully')
+        return redirect('/')
 
 def BuyMeCoffee(request):
     if request.method == 'POST':
@@ -100,23 +172,16 @@ def BuyMeCoffee(request):
             }
             print('User ID', user.id)
             response = requests.post(url, headers=headers, json=payload)
+            response_data = response.json().get('response', {})
             print('Response', response.json())
 
-            if response.status_code == 200:
-                response_data = response.json().get('response', {})
-                if response_data.get('ResponseCode') == '0':
-                    user.save()
-                    return JsonResponse({
-                        'status': 200,
-                        'message': '📲 STK Push Sent! ✅ Check your 📱 phone to complete the payment. 💳',
-                        'id': user.id
-                    })
-                else:
-                    return JsonResponse({
-                        'status': 500,
-                        'message': response_data.get('ResponseDescription', 'An error occured while initiating payment, Please try agein!!.'),
-                        'id': user.id
-                    })
+            if response.status_code == 200 and response_data.get('ResponseCode') == '0':
+                user.save()
+                return JsonResponse({
+                    'status': 200,
+                    'message': '📲 STK Push Sent! ✅ Check your 📱 phone to complete the payment. 💳',
+                    'id': user.id
+                })
             else:
                 return JsonResponse({
                     'status': 500,
@@ -129,6 +194,28 @@ def BuyMeCoffee(request):
             return JsonResponse({'status': 500, 'message': str(e)}, status=500)
 
     return JsonResponse({'error': 'Invalid request method.'}, status=405)
+
+def CheckPayment(request):
+    user__id = request.GET.get('user_id')
+    if not user__id:
+        return JsonResponse({'status': 400, 'message': 'Payment ID is required...'})
+
+    try:
+        pay = buyMeCoffee.objects.get(id=user__id)
+    except buyMeCoffee.DoesNotExist:
+        return JsonResponse({'status': 404, 'message': 'Payment record not found.'})
+    
+    result_code = int(pay.result_code) if pay.result_code is not None else None
+    
+    if result_code is None:
+        return JsonResponse({
+            'status': 202, 
+            'message': pay.result_desc,
+        })
+    elif result_code == 0:
+        return JsonResponse({'status': 200, 'message': pay.result_desc})
+    else:
+        return JsonResponse({'status': 201, 'message': pay.result_desc})
 
 
 
@@ -169,66 +256,36 @@ def Callback(request):
                 elif name == "PhoneNumber":
                     phone_number = value
 
-            # print(f"MerchantRequestID: {merchant_request_id}")
-            # print(f"CheckoutRequestID: {checkout_request_id}")
-            # print(f"ResultCode: {result_code}, ResultDesc: {result_desc}")
-            # print(f"Amount: {amount}, MpesaReceiptNumber: {receipt_number}")
-            # print(f"TransactionDate: {transaction_date}, PhoneNumber: {phone_number}")
 
             if result_code == 0:
                 pay = buyMeCoffee.objects.get(id=user_id)
-                pay.receipt_number = receipt_number,
-                pay.transaction_date = transaction_date,
-                pay.merchant_request_id = merchant_request_id,
-                pay.checkout_request_id = checkout_request_id,
+                pay.receipt_number = receipt_number
+                pay.merchant_request_id = merchant_request_id
+                pay.checkout_request_id = checkout_request_id
+                pay.result_desc = result_desc
+                pay.result_code = result_code
                 pay.status = 'Paid'
                 pay.save()
-                
                 return JsonResponse({
                     'status': 200,
                     'message': 'Payment made successfully. Thank you for helping make my dreams a reality',
                 })
             else:
+                pay = buyMeCoffee.objects.get(id=user_id)
+                pay.merchant_request_id = merchant_request_id
+                pay.checkout_request_id = checkout_request_id
+                pay.result_desc = result_desc
+                pay.result_code = result_code
+                pay.save()
                 return JsonResponse({
                     'status': 500,
                     'message': f'{result_desc}',
                 })
+            
         except json.JSONDecodeError:
             return JsonResponse({"error": "Invalid JSON format"}, status=400)
     return JsonResponse({"error": "Invalid request"}, status=400)
 
-
-def CheckPaymentStatus(request):
-    user_id = request.GET.get('user_id')
-    if not user_id:
-        return JsonResponse({'message': ' ID is required'}, status=400)
-    try:
-        timeout = 30
-        interval = 2
-        elapsed_time = 0
-
-        while elapsed_time < timeout:
-            pay = buyMeCoffee.objects.get(id=user_id)
-            if pay.status == "Paid":
-                return JsonResponse({
-                    'message': pay.result_desc,
-                    'status': 200,
-                    'data': pay.status
-                }, status=200)
-            time.sleep(interval)
-            elapsed_time += interval
-        return JsonResponse({
-            'message': pay.result_desc,
-            'status': 400,
-            'data': pay.status
-        }, status=400)
-    except:
-        pay = buyMeCoffee.objects.get(id=user_id)
-        return JsonResponse({
-            'message': pay.result_desc,
-            'status': 400,
-            'data': pay.status
-        }, status=400)
 
 
 

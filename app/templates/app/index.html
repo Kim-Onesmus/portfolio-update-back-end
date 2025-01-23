@@ -83,9 +83,10 @@
             </div>
             <div class="row align-items-center">
                 <div class="col-lg-5 px-5 pl-lg-0 pb-5 pb-lg-0">
-                    {% for data in image %}
-                    {% if data.tittle == 'top' %}
-                    <img class="img-fluid w-100 rounded-circle shadow-sm" src="{{data.image.url}}" alt="Onesmus Kimanzi Muimi">
+                    {% for data in cached_data.image %}
+                    <!-- <p>{{ data }}</p> -->
+                    {% if data.title == 'top' %}
+                    <img class="img-fluid w-100 rounded-circle shadow-sm" src="{{data.image_url}}" alt="Onesmus Kimanzi Muimi">
                     {% endif %}
                     {% endfor %}
                 </div>
@@ -117,9 +118,9 @@
             <br>
             <div class="row align-items-center">
                 <div class="col-lg-5 pb-4 pb-lg-0">
-                    {% for data in image %}
-                    {% if data.tittle == 'about' %}
-                    <img class="img-fluid rounded w-100" src="{{data.image.url}}" alt="Onesmus Kimanzi Muimi">
+                    {% for data in cached_data.image %}
+                    {% if data.title == 'about' %}
+                    <img class="img-fluid rounded w-100" src="{{data.image_url}}" alt="Onesmus Kimanzi Muimi">
                     {% endif %}
                     {% endfor %}
                 </div>
@@ -134,7 +135,7 @@
                         <div class="col-sm-6 py-2"><h6><b>Name: </b><span class="">Onesmus Kimanzi Muimi</span></h6></div>
                         <div class="col-sm-6 py-2"><h6><b>Birthday: </b><span class="text-secondary">30 April 2001</span></h6></div>
                         <div class="col-sm-6 py-2"><h6><b>Degree: </b><span class="text-secondary">BSc Computer Science</span></h6></div>
-                        <div class="col-sm-6 py-2"><h6><b>Experience: </b><span class="text-secondary">3 Years</span></h6></div>
+                        <div class="col-sm-6 py-2"><h6><b>Experience: </b><span class="text-secondary">4 Years</span></h6></div>
                         <div class="col-sm-6 py-2"><h6><b>Phone: </b><span class="text-secondary">+254 792 61379</span></h6></div>
                         <div class="col-sm-6 py-2"><h6><b>Email: </b><span class="text-secondary">Kimonesmuske@gmail.com</span></h6></div>
                         <div class="col-sm-6 py-2"><h6><b>Address: </b><span class="text-secondary">Nairobi, Kenya</span></h6></div>
@@ -221,43 +222,49 @@
     </div>
 
     <!-- Waiting Modal -->
-    <div id="waitingModal" class="modal" style="display:none;">
+    <div id="waitingModal" class="modal hide" data-backdrop="static" data-keyboard="false" style="display:none;">
         <div style="padding: 20px;" class="modal-content">
             <div style="text-align: center;">
-                <div class="spinner-border text-primary" role="status">
-                    <span></span>
-                </div>
-                <h5 id="processingText" style="margin-top: 10px;"> </h5>
-                <h5>Please wait while we process your payment...</h5>
+                <i class="fa fa-spinner fa-spin" style="font-size:50px; color: green;"></i><br>
+                <p style="margin-top: 10px;">
+                    📲 STK Push Sent! ✅ Check your 📱 phone to complete the payment. 💳 <br>
+                    And wait while we process your payment <br>
+                    This may take upto 60 seconds
+                </p>
             </div>
         </div>
     </div>
 
     <!-- Success Modal -->
-    <div id="successModal" class="modal">
+    <div id="successModal" class="modal hide" data-backdrop="static" data-keyboard="false">
         <div style="padding: 20px;" class="modal-content">
             <div style="text-align: center;">
                 <div style="font-size: 50px; color: green;">&#10004;</div>
                 <h5>Payment Successful!</h5>
-                <p>Thank you for helping make my dreams a reality!</p>
+                <p id="successMessage">Payment made successfully. Thank you for helping make my dreams a reality.</p>
+                <div class="progress" style="height: 5px;">
+                    <div id="successProgressBar" class="progress-bar" role="progressbar" style="width: 100%; background-color: green"
+                        aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
             </div>
         </div>
     </div>
 
     <!-- Error Modal -->
-    <div id="errorModal" class="modal" style="display:none;">
+    <div id="errorModal" class="modal hide" data-backdrop="static" data-keyboard="false" style="display:none;">
         <div style="padding: 20px;" class="modal-content">
             <div style="text-align: center;">
-                <div style="font-size: 50px; color: red;">&#9888</div>
+                <div style="font-size: 50px; color: red;">&#9888;</div>
                 <h5>Payment Failed</h5>
                 <p id="errorMessage">There was an error processing your payment. Please try again later.</p>
                 <div class="progress" style="height: 5px;">
-                    <div id="errorProgressBar" class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0"
-                        aria-valuemin="0" aria-valuemax="100"></div>
+                    <div id="errorProgressBar" class="progress-bar" role="progressbar" style="width: 100%; background-color: red;"
+                        aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
                 </div>
             </div>
         </div>
     </div>
+
 
 
 
@@ -275,11 +282,24 @@
                     <div class="border-left border-primary pt-2 pl-4 ml-2">
                         <div class="position-relative mb-4">
                             <i class="far fa-dot-circle position-absolute" style="top: 2px; left: -32px; color:#a3075e"></i>
-                            <h5 class="font-weight-bold mb-1">Bachelor’s Degree in Computer Science</h5>
+                            <h5 class="font-weight-bold mb-1">Bachelor’s Degree in Computer Science (Second Class Upper Division)</h5>
                             <p class="mb-2"><strong>Rongo University</strong> | <small>2020 - 2024</small></p>
-                            <p>I have successfully completed my Bachelor's degree in Computer Science at Rongo University, and I am currently awaiting graduation in December 2024. During my time at the university, I developed a solid foundation in software development, computer networks, and database management. I gained in-depth knowledge in various programming languages such as Python, C, C++, and mastered frameworks like Django. 
+                            <p>
+                                I graduated with a Bachelor’s degree in Computer Science from Rongo University in December 2024. My studies
+                                provided a comprehensive foundation in software development, computer networks, and database management. I
+                                developed expertise in programming languages such as Python, C, and C++, along with mastery of frameworks like
+                                Django.
                             </p>
-                            <p>Through both coursework and practical projects, I had the opportunity to apply theoretical concepts to real-world scenarios, enhancing my problem-solving skills and adaptability. One of my key achievements during this period was the development of a Leave Management System for Rongo University, showcasing my ability to deliver practical solutions. The experience I gained from my academic journey has prepared me well for the dynamic challenges of the tech industry.</p>
+                            <p>
+                                Throughout my academic journey, I applied theoretical knowledge to practical projects, including my course work 
+                                projects which were E-Commerce platform and Face recognition Attendance system. These projects demonstrated my 
+                                ability to design and
+                                implement solutions that addressed real-world challenges effectively.
+                            </p>
+                            <p>
+                                The skills, adaptability, and problem-solving abilities I gained during my time at Rongo University have
+                                equipped me to excel in the fast-evolving tech industry.
+                            </p>
                         </div>
                         <div class="position-relative mb-4">
                             <i class="far fa-dot-circle position-absolute" style="top: 2px; left: -32px;  color:#a3075e"></i>
@@ -295,11 +315,8 @@
                     <div class="border-left border-primary pt-2 pl-4 ml-2">
                         <div class="position-relative mb-4">
                             <i class="far fa-dot-circle position-absolute" style="top: 2px; left: -32px; color:#a3075e"></i>
-                            <h5 class="font-weight-bold mb-1">ICT Support and Web Developer</h5>
+                            <h5 class="font-weight-bold mb-1">ICT Attache</h5>
                             <p class="mb-2"><strong>Rongo University - ICT Department</strong> | <small>(May 2023 - July 2023)</small></p>
-                            <p>
-                                Developed and implemented the Rongo University Leave Management System, streamlining the leave approval process for staff.
-                            </p>
                             <p>
                                 Provided comprehensive IT support, including diagnosing and resolving hardware, software, and network issues, ensuring system efficiency across the university.
                             </p>
@@ -312,12 +329,26 @@
                         </div>
                         <div class="position-relative mb-4">
                             <i class="far fa-dot-circle position-absolute" style="top: 2px; left: -32px; color:#a3075e"></i>
-                            <h5 class="font-weight-bold mb-1">Full-Stack Web Developed</h5>
-                            <p class="mb-2"><strong>My Brand(KimTech)</strong> <small></small></p>
-                            <p>Developed and deployed multiple web applications, including Rongo Shops, Kenya 47 News, and ICON Data and Learning, using technologies like Django, Python, HTML, CSS, and JavaScript.</p>
-                            <p>Worked closely with clients to gather requirements, design user-friendly interfaces, and implement full-stack solutions tailored to their business needs.</p>
-                            <p>Managed version control with GitHub and deployed projects on cloud platforms like Render and PythonAnywhere, ensuring high availability and reliability.</p>
+                            <h5 class="font-weight-bold mb-1">Full-Stack Web Developer</h5>
+                            <p class="mb-2"><strong>My Brand (KimTech)</strong></p>
+                            <p>
+                                As a Full-Stack Web Developer under my brand KimTech, I have successfully developed and deployed several
+                                impactful web applications, including RongoDeals API, Kenya 47 News, and the ShowCase portfolio platform.
+                                Leveraging technologies such as Django, Python, HTML, CSS, and JavaScript, I consistently deliver scalable and
+                                user-friendly solutions.
+                            </p>
+                            <p>
+                                I work closely with clients to gather requirements, design intuitive user interfaces, and implement
+                                comprehensive full-stack solutions that address their specific business needs. My dedication to understanding
+                                client goals ensures tailor-made results that align with their objectives.
+                            </p>
+                            <p>
+                                Utilizing version control tools like GitHub, I ensure efficient collaboration and maintain clean codebases.
+                                Additionally, I deploy projects on reliable cloud platforms like Render, Vercel, Hostinger and PythonAnywhere, prioritizing high
+                                availability and robust performance for all applications.
+                            </p>
                         </div>
+
                     </div>
                 </div>
             </div>
@@ -335,77 +366,105 @@
                 <div class="col-md-6">
                     <div class="skill mb-4">
                         <div class="d-flex justify-content-between">
-                            <h6 class="font-weight-bold">HTML</h6>
-                            <h6 class="font-weight-bold">95%</h6>
+                            <h6 class="font-weight-bold">Python</h6>
+                            <h6 class="font-weight-bold">90%</h6>
                         </div>
                         <div class="progress">
-                            <div class="progress-bar bg-primary" role="progressbar" aria-valuenow="95" aria-valuemin="0" aria-valuemax="100"></div>
-                        </div>
-                    </div>
-                    <div class="skill mb-4">
-                        <div class="d-flex justify-content-between">
-                            <h6 class="font-weight-bold">CSS</h6>
-                            <h6 class="font-weight-bold">70%</h6>
-                        </div>
-                        <div class="progress">
-                            <div class="progress-bar bg-warning" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
-                        </div>
-                    </div>
-                    <div class="skill mb-4">
-                        <div class="d-flex justify-content-between">
-                            <h6 class="font-weight-bold">Rest API</h6>
-                            <h6 class="font-weight-bold">60%</h6>
-                        </div>
-                        <div class="progress">
-                            <div class="progress-bar bg-secondary" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
-                        </div>
-                    </div>
-                    <div class="skill mb-4">
-                        <div class="d-flex justify-content-between">
-                            <h6 class="font-weight-bold">Illustrator</h6>
-                            <h6 class="font-weight-bold">80%</h6>
-                        </div>
-                        <div class="progress">
-                            <div class="progress-bar bg-primary" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-6">
-                    <div class="skill mb-4">
-                        <div class="d-flex justify-content-between">
-                            <h6 class="font-weight-bold">Javascript</h6>
-                            <h6 class="font-weight-bold">50%</h6>
-                        </div>
-                        <div class="progress">
-                            <div class="progress-bar bg-danger" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                            <div class="progress-bar bg-primary" role="progressbar" aria-valuenow="90" aria-valuemin="0"
+                                aria-valuemax="100"></div>
                         </div>
                     </div>
                     <div class="skill mb-4">
                         <div class="d-flex justify-content-between">
                             <h6 class="font-weight-bold">Django</h6>
-                            <h6 class="font-weight-bold">80%</h6>
+                            <h6 class="font-weight-bold">85%</h6>
                         </div>
                         <div class="progress">
-                            <div class="progress-bar bg-dark" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
+                            <div class="progress-bar bg-warning" role="progressbar" aria-valuenow="85" aria-valuemin="0"
+                                aria-valuemax="100"></div>
                         </div>
                     </div>
                     <div class="skill mb-4">
                         <div class="d-flex justify-content-between">
-                            <h6 class="font-weight-bold">Python</h6>
-                            <h6 class="font-weight-bold">75%</h6>
-                        </div>
-                        <div class="progress">
-                            <div class="progress-bar bg-info" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
-                        </div>
-                    </div>
-                    <div class="skill mb-4">
-                        <div class="d-flex justify-content-between">
-                            <h6 class="font-weight-bold">Version Control</h6>
+                            <h6 class="font-weight-bold">JavaScript</h6>
                             <h6 class="font-weight-bold">70%</h6>
                         </div>
                         <div class="progress">
-                            <div class="progress-bar bg-warning" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
+                            <div class="progress-bar bg-secondary" role="progressbar" aria-valuenow="70" aria-valuemin="0"
+                                aria-valuemax="100"></div>
+                        </div>
+                    </div>
+                    <div class="skill mb-4">
+                        <div class="d-flex justify-content-between">
+                            <h6 class="font-weight-bold">HTML</h6>
+                            <h6 class="font-weight-bold">95%</h6>
+                        </div>
+                        <div class="progress">
+                            <div class="progress-bar bg-primary" role="progressbar" aria-valuenow="95" aria-valuemin="0"
+                                aria-valuemax="100"></div>
+                        </div>
+                    </div>
+                    <div class="skill mb-4">
+                        <div class="d-flex justify-content-between">
+                            <h6 class="font-weight-bold">CSS</h6>
+                            <h6 class="font-weight-bold">75%</h6>
+                        </div>
+                        <div class="progress">
+                            <div class="progress-bar bg-warning" role="progressbar" aria-valuenow="75" aria-valuemin="0"
+                                aria-valuemax="100"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-6">
+                    <div class="skill mb-4">
+                        <div class="d-flex justify-content-between">
+                            <h6 class="font-weight-bold">Version Control (Git/GitHub)</h6>
+                            <h6 class="font-weight-bold">90%</h6>
+                        </div>
+                        <div class="progress">
+                            <div class="progress-bar bg-danger" role="progressbar" aria-valuenow="90" aria-valuemin="0"
+                                aria-valuemax="100"></div>
+                        </div>
+                    </div>
+                    <div class="skill mb-4">
+                        <div class="d-flex justify-content-between">
+                            <h6 class="font-weight-bold">PostgreSQL/SQLite</h6>
+                            <h6 class="font-weight-bold">80%</h6>
+                        </div>
+                        <div class="progress">
+                            <div class="progress-bar bg-dark" role="progressbar" aria-valuenow="80" aria-valuemin="0"
+                                aria-valuemax="100"></div>
+                        </div>
+                    </div>
+                    <div class="skill mb-4">
+                        <div class="d-flex justify-content-between">
+                            <h6 class="font-weight-bold">Adobe Illustrator</h6>
+                            <h6 class="font-weight-bold">80%</h6>
+                        </div>
+                        <div class="progress">
+                            <div class="progress-bar bg-info" role="progressbar" aria-valuenow="80" aria-valuemin="0"
+                                aria-valuemax="100"></div>
+                        </div>
+                    </div>
+                    <div class="skill mb-4">
+                        <div class="d-flex justify-content-between">
+                            <h6 class="font-weight-bold">Linux/Windows Administration</h6>
+                            <h6 class="font-weight-bold">85%</h6>
+                        </div>
+                        <div class="progress">
+                            <div class="progress-bar bg-secondary" role="progressbar" aria-valuenow="85" aria-valuemin="0"
+                                aria-valuemax="100"></div>
+                        </div>
+                    </div>
+                    <div class="skill mb-4">
+                        <div class="d-flex justify-content-between">
+                            <h6 class="font-weight-bold">Rest API Development</h6>
+                            <h6 class="font-weight-bold">80%</h6>
+                        </div>
+                        <div class="progress">
+                            <div class="progress-bar bg-primary" role="progressbar" aria-valuenow="80" aria-valuemin="0"
+                                aria-valuemax="100"></div>
                         </div>
                     </div>
                 </div>
@@ -470,13 +529,13 @@
                 </div>
             </div>
             <div class="row portfolio-container">
-                {% for data in project reversed %}
-                {% if data.tittle == 'development' %}
+                {% for data in cached_data.project reversed %}
+                {% if data.title == 'development' %}
                 <div class="col-lg-4 col-md-6 mb-4 portfolio-item first">
                     <div class="position-relative overflow-hidden mb-2">
-                        <img style="width: auto; height: 200px;" class="img-fluid rounded w-100" src="{{data.image.url}}" alt="">
+                        <img style="width: auto; height: 200px;" class="img-fluid rounded w-100" src="{{data.image_url}}" alt="">
                         <div class="portfolio-btn bg-white d-flex align-items-center justify-content-center">
-                            <a href="{{data.url}}">
+                            <a href="{{data.image_url}}">
                                 <i class="fa fa-globe" style="font-size: 40px;text-align: center;"><br>
                                     <span style="font-size: 20px;">{{data.name}}</span>
                                 </i>
@@ -486,14 +545,12 @@
                     <p style="color: black;text-align: center;font-size: 18px;">{{data.name}}</p>
                 </div>
                 {% endif %}
-                {% endfor %}
-                {% for data in project reversed %}
-                {% if data.tittle == 'graphic_design' %}
+                {% if data.title == 'graphic_design' %}
                 <div class="col-lg-4 col-md-6 mb-4 portfolio-item second">
                     <div class="position-relative overflow-hidden mb-2">
-                        <img style="width: auto; height: 300px;" class="img-fluid rounded w-100" src="{{data.image.url}}" alt="">
+                        <img style="width: auto; height: 300px;" class="img-fluid rounded w-100" src="{{data.image_url}}" alt="">
                         <div class="portfolio-btn bg-white d-flex align-items-center justify-content-center">
-                            <a href="{{data.url}}">
+                            <a href="{{data.image_url}}">
                                 <i class="fa fa-globe" style="font-size: 40px;text-align: center;"><br>
                                     <span style="font-size: 20px;">{{data.name}}</span>
                                 </i>
@@ -503,14 +560,12 @@
                     <p style="color: black;text-align: center;font-size: 18px;">{{data.name}}</p>
                 </div>
                 {% endif %}
-                {% endfor %}
-                {% for data in project reversed %}
-                {% if data.tittle == 'web_design' %}
+                {% if data.title == 'web_design' %}
                 <div class="col-lg-4 col-md-6 mb-4 portfolio-item third">
                     <div class="position-relative overflow-hidden mb-2">
-                        <img style="width: auto; height: 200px;" class="img-fluid rounded w-100" src="{{data.image.url}}" alt="">
+                        <img style="width: auto; height: 150px;" class="img-fluid rounded w-100" src="{{data.image_url}}" alt="">
                         <div class="portfolio-btn bg-white d-flex align-items-center justify-content-center">
-                            <a href="{{data.url}}">
+                            <a href="{{data.image_url}}">
                                 <i class="fa fa-globe" style="font-size: 40px;text-align: center;"><br>
                                     <span style="font-size: 20px;">{{data.name}}</span>
                                 </i>
@@ -533,10 +588,10 @@
             </div>
             <br>
             <div class="row">
-                {% for data in blog reversed %}
+                {% for data in cached_data.blog reversed %}
                 <div class="col-lg-4 mb-5">
                     <div class="position-relative mb-4">
-                        <img style="height: 290px;" class="img-fluid rounded w-100" src="{{data.image.url}}" alt="">
+                        <img style="height: 290px;" class="img-fluid rounded w-100" src="{{data.image_url}}" alt="">
                         <div class="blog-date">
                             <!-- <h4 class="font-weight-bold mb-n1"></h4> -->
                             <small class="text-white font-weight-bold text-uppercase p-4">{{data.date}}</small>
@@ -548,7 +603,7 @@
                         <i style="font-size: 25px; color: rgb(182, 109, 41);" class="far fa-thumbs-down dislike-icon"></i>
                         <span class="dislike-count">0</span>
                     </div> -->
-                    <h5 style="border-bottom: 2px solid cyan;">{{data.tittle}}</h5>
+                    <h5 style="border-bottom: 2px solid cyan;">{{data.title}}</h5>
                     <h6>{{data.description}}</h6>
                     <p data-post-id="{{ data.id }}"></p>
                 </div>
@@ -567,13 +622,13 @@
             <div class="row justify-content-center">
                 <div class="col-lg-8">
                     <div class="owl-carousel testimonial-carousel">
-                        {% if review %}
-                        {% for data in review %}
+                        {% if cached_data.review %}
+                        {% for data in cached_data.review %}
                         <div class="text-center">
                             <h5 class="font-weight-bold m-0">{{data.name}}</h5>
                             <span>{{data.profession}}</span>
-                            <img class="img-fluid rounded-circle mx-auto mb-3" src="{{data.image.url}}" style="width: 80px; height: 80px;">
-                            <p>{{data.messange}}</p>
+                            <img class="img-fluid rounded-circle mx-auto mb-3" src="{{data.image_url}}" style="width: 80px; height: 80px;">
+                            <p>{{data.message}}</p>
                             <div class="star-rating">
                                 {% for i in data.star_range %}
                                 <span style="color: orange;" class="fa fa-star checked"></span>
@@ -593,8 +648,66 @@
                         </div>
                         {% endif %}
                     </div>
+                    <div style="text-align: center; margin-top: 20px;">
+                        <button style="outline: 2px solid #a3075e; color: black" class="button btn" data-modal="reviewModal">
+                            Leave a Review
+                        </button>
+                    </div>
                 </div>
             </div>
+        </div>
+    </div>
+
+
+    <div id="reviewModal" class="modal">
+        <div class="modal-content">
+          <div class="contact-form">
+            <span style="font-size: 50px;" class="close">&times;</span><br>
+            
+                <div class="contact-form text-center">
+                    <div id="success"></div>
+                    <form method="post" action="{% url 'review' %}" id="contactForm" enctype="multipart/form-data">
+                        <p style="text-align: center; font-size:20px; color: #056cb2;"><b>Leave a Review</b></p>
+                        {% csrf_token %}
+                        <div class="form-row">
+                            <div class="control-group col-sm-6">
+                                <input type="text" class="form-control p-4" id="name" name="name" placeholder="Name"
+                                    required="required" data-validation-required-message="Please enter your name" />
+                                <p class="help-block text-danger"></p>
+                            </div>
+                            <div class="control-group col-sm-6">
+                                <input type="text" class="form-control p-4" id="email" name="profession"
+                                    placeholder="Your Profession" required="required"
+                                    data-validation-required-message="Please enter your email" />
+                                <p class="help-block text-danger"></p>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="control-group col-sm-6">
+                                <input type="file" class="form-control p-4" id="subject" name="image" placeholder="Subject"
+                                    required="required" data-validation-required-message="Please enter a subject" />
+                                <p class="help-block text-danger"></p>
+                            </div>
+                            <div class="control-group col-sm-6">
+                                <input type="number" class="form-control p-4" id="subject" name="rating" placeholder="Rating"
+                                    required="required" data-validation-required-message="Please enter a subject" min="0"
+                                    max="5" />
+                                <p class="help-block text-danger"></p>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <textarea class="form-control py-3 px-4" rows="5" id="message" name="message" placeholder="Message"
+                                required="required" data-validation-required-message="Please enter your message"></textarea>
+                            <p class="help-block text-danger"></p>
+                        </div>
+                        <div>
+                            <button class="btn btn-outline-primary" type="submit" id="sendMessageButton">
+                                Submit Review</button>
+                        </div>
+                    </form>
+                </div>
+            </form>
+          </div>
         </div>
     </div>
 
@@ -602,8 +715,8 @@
     <div class="container-fluid py-5" id="contact">
         <div class="container">
             <div style="border-bottom: 2px solid #a3075e;" class="position-relative d-flex align-items-center justify-content-center">
-                <h1 class="display-1 text-uppercase text-white" style="-webkit-text-stroke: 1px #dee2e6;">Contact</h1>
-                <h1 class="position-absolute text-uppercase" style="color: #056cb2;">Contact Me</h1>
+                <h1 class="display-1 text-uppercase text-white" style="-webkit-text-stroke: 1px #dee2e6;">Get in Touch</h1>
+                <h1 class="position-absolute text-uppercase" style="color: #056cb2;">Contact me</h1>
             </div>
             <br>
             <div class="row justify-content-center">
@@ -611,6 +724,7 @@
                     <div class="contact-form text-center">
                         <div id="success"></div>
                         <form method="post" id="contactForm">
+                            <p style="text-align: center; font-size:20px; color: #056cb2;"><b>Contact</b></p>
                             {% csrf_token %}
                             <div class="form-row">
                                 <div class="control-group col-sm-6">
@@ -646,6 +760,8 @@
         </div>
     </div>
     <!-- Contact End -->
+
+    
 
 
     <!-- Footer Start -->

@@ -3,9 +3,11 @@ from . import views
 
 urlpatterns = [
     path('', views.Index, name='lipa_na_mpesa'),
+    path('review', views.ReviewForms, name='review'),
     
     path('buy_me_coffee/', views.BuyMeCoffee, name='buy_me_cofee'),
-    path('check_payment_status', views.CheckPaymentStatus, name='check_payment_status'),
+    # path('check_payment_status', views.CheckPaymentStatus, name='check_payment_status'),
+    path('check_payment', views.CheckPayment, name='check_payment'),
 
     path('c2b/callback', views.Callback, name="callback"),
 
